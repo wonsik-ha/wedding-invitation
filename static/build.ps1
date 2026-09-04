@@ -326,8 +326,7 @@ if (Test-Path -LiteralPath $photoSrc) {
 
 
 # --- 청첩장 JS가 읽는 주입 값 (dist/js/data.js) -----------------------------
-# 청첩장 세 version의 js/config.js 가 window.__WEDDING__ 를 읽습니다.
-# 이 모양을 바꾸면 세 version이 함께 깨지므로 key 이름을 유지합니다.
+# 청첩장 두 version의 js/config.js 가 window.__WEDDING__ 를 읽습니다.
 function PersonJson([string]$px) {
   $zoom = NumOr (Cf "${px}_PHOTO_ZOOM" '1') '1'
   if ([double]$zoom -lt 1 -or [double]$zoom -gt 3) { $zoom = '1' }
@@ -335,13 +334,9 @@ function PersonJson([string]$px) {
     ',"short":'      + (JStr (Cf "${px}_NAME_SHORT")) +
     ',"en":'         + (JStr (Cf "${px}_NAME_EN")) +
     ',"initial":'    + (JStr (Cf "${px}_INITIAL")) +
-    ',"role":'       + (JStr (Cf "${px}_ROLE")) +
     ',"parents":'    + (JList (Cf "${px}_PARENTS")) +
     ',"rankKo":'     + (JStr (Cf "${px}_RANK_KO")) +
     ',"rank":'       + (JStr (Cf "${px}_RANK_EXPR")) +
-    ',"mbti":'       + (JStr (Cf "${px}_MBTI")) +
-    ',"hobby":'      + (JStr (Cf "${px}_HOBBY")) +
-    ',"note":'       + (JStr (Cf "${px}_NOTE")) +
     ',"photo":'      + (JStr (Cf "${px}_PHOTO")) +
     ',"photoFocus":' + (JStr (Cf "${px}_PHOTO_FOCUS" '50% 30%')) +
     ',"photoZoom":'  + $zoom + '}'
@@ -387,7 +382,6 @@ else      { [void]$data.AppendLine('window.__NO_API__=true;') }
 [void]$data.AppendLine("window.__WEDDING__=$weddingJson;")
 [void]$data.AppendLine("window.__NAVER_MAP_KEY__=$(JStr (Cf 'NAVER_MAP_KEY_ID'));")
 [void]$data.AppendLine("window.__KAKAO_KEY__=$(JStr (Cf 'KAKAO_JS_KEY'));")
-[void]$data.AppendLine("window.__GA_ID__=$(JStr (Cf 'GA_MEASUREMENT_ID'));")
 [void]$data.AppendLine("window.__GIFT__=$(JStr $giftBlob);")
 Write-Text ([IO.Path]::Combine($Out, 'js', 'data.js')) $data.ToString()
 

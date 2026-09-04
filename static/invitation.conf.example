@@ -47,16 +47,11 @@ GROOM_NAME_SHORT="앙아"
 GROOM_NAME_EN="Anga Kim"
 # 사진이 없을 때 대신 보여줄 한 글자입니다.
 GROOM_INITIAL="앙"
-GROOM_ROLE="DevSecOps Engineer"
 # 부모 이름입니다. 표시 순서 그대로 콤마로 구분합니다.
 GROOM_PARENTS="김철수,이영희"
 GROOM_RANK_KO="차남"
 # 위 서열을 code 표현으로 옮긴 장식 문구입니다. developer version에 나옵니다.
 GROOM_RANK_EXPR="sons[1]"
-GROOM_MBTI="ENFJ"
-GROOM_HOBBY="등산, 서예"
-# developer version의 주석 한 줄입니다.
-GROOM_NOTE="// always on-call for her"
 # 프로필 사진입니다. src/photos/ 아래 파일 이름을 적습니다. 비우면 이니셜 box로 fallback합니다.
 GROOM_PHOTO="demo-groom.jpg"
 # 세로 4:5 frame의 crop 초점(CSS object-position)과 확대 배율입니다.
@@ -69,13 +64,9 @@ BRIDE_NAME="최엥에"
 BRIDE_NAME_SHORT="엥에"
 BRIDE_NAME_EN="Enge Choi"
 BRIDE_INITIAL="엥"
-BRIDE_ROLE="Backend Developer"
 BRIDE_PARENTS="최민수,박지영"
 BRIDE_RANK_KO="장녀"
 BRIDE_RANK_EXPR="children[0]"
-BRIDE_MBTI="ENFJ"
-BRIDE_HOBBY="거문고, 그네뛰기"
-BRIDE_NOTE="// her promises always resolve"
 BRIDE_PHOTO="demo-bride.jpg"
 BRIDE_PHOTO_FOCUS="50% 30%"
 BRIDE_PHOTO_ZOOM="1"
@@ -173,11 +164,3 @@ NAVER_MAP_KEY_ID=""
 #     [플랫폼 키 > JavaScript 키 > JavaScript SDK 도메인] 은 Kakao.init 을 실행하는 쪽입니다.
 #     [제품 링크 관리 > 웹 도메인] 은 공유 card를 눌렀을 때 이동할 쪽입니다.
 KAKAO_JS_KEY=""
-
-# Google Analytics 측정 ID입니다. GA4 속성의 데이터 스트림에 있는 G- 로 시작하는 값입니다.
-#   - 비우면 gtag script를 아예 불러오지 않습니다. 요청도 나가지 않습니다.
-#   - 두 구성이 각자 conf를 가지므로 static과 with-guestbook에 다른 ID를 넣어도 됩니다.
-#   - 이 파일은 .gitignore 대상이라 fork한 쪽에는 빈 값이 갑니다.
-#     남의 방문 기록이 내 속성으로 들어오지 않게 하려는 것입니다.
-#   - 하객의 방문을 기록하므로, 남기실 안내가 있으면 청첩장에 함께 적어 주시기 바랍니다.
-GA_MEASUREMENT_ID=""

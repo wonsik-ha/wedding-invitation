@@ -1,5 +1,5 @@
 /*
-   공용 설정. 네 page(index, developer, terminal, release)가 모두 공유한다.
+   공용 설정. 두 page(index, developer)가 공유한다.
    날짜, 주소, API, 사진 등 공개 정보는 이 파일에서만 수정하면 된다.
 
    주의: 계좌번호 같은 개인정보는 여기 두지 않는다.
@@ -25,7 +25,6 @@ function profileOf(p, role) {
     role: role, name: p.name || '', initial: p.initial || '',
     en: p.en || '', parents: p.parents || [], rankKo: p.rankKo || '',
     photo: p.photo || '', photoFocus: p.photoFocus || '50% 30%', photoZoom: p.photoZoom || 1,
-    mbti: p.mbti || '', hobby: p.hobby || '',
   };
 }
 
@@ -587,7 +586,6 @@ document.addEventListener('DOMContentLoaded', function () {
   b.addEventListener('click', function () { openShareSheet(); });
 });
 
-
 /* 네이버 지도 embed. main과 개발자 version의 '오시는 길'에서 쓴다.
    #naverMap 요소가 있고 키가 설정돼 있을 때만 지도를 그린다.
    키가 없거나 load에 실패하면 container에 .is-fallback을 붙여 안내 문구(.map-note)를 노출하고,
@@ -753,67 +751,3 @@ document.addEventListener('DOMContentLoaded', function () {
     refresh();
   });
 });
-
-
-/* Google Analytics (전 화면 공통)
-   invitation.conf 의 GA_MEASUREMENT_ID 가 window.__GA_ID__ 로 심어진다.
-   비어 있으면 script를 부르지 않고 요청도 내지 않는다. 이 저장소는 남이 fork해서 쓰므로
-   ID를 HTML에 박아 두면 남의 하객 방문이 내 속성으로 들어온다. 그래서 conf 로 뺐다.
-   config.js 는 네 page가 모두 가장 먼저 부르므로 여기 한 곳이면 전 page에 걸린다. */
-(function loadAnalytics() {
-  var id = (typeof window !== 'undefined' && window.__GA_ID__) || '';
-  if (!id) return;
-  var s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
-  (document.head || document.documentElement).appendChild(s);
-  window.dataLayer = window.dataLayer || [];
-  // gtag는 GA가 요구하는 전역 이름이다. arguments 를 그대로 넘겨야 한다.
-  window.gtag = function () { window.dataLayer.push(arguments); };
-  window.gtag('js', new Date());
-  window.gtag('config', id);
-})();
-
-
-/* easter egg: 개발자 console 인사(전 version 공통)
-   개발자도구 console을 열면 terminal version의 부부 사진(our_wedding.jpg) ASCII art와
-   영어 감사 인사를 console.log로 남긴다. config.js는 세 version과 release가 모두 가장 먼저
-   load하므로 어느 URL에서든 똑같이 보인다.
-   도형은 terminal.js의 renderPhoto()에 있는 polaroid 커플과 같고, 여기서는 평문으로 재현한다.
-   ※ console.log라서 기본 console 레벨(Info)에서 항상 보인다. */
-(function consoleEasterEgg() {
-  try {
-    if (typeof console === 'undefined' || !console.log) return;
-    var INNER = 28;
-    var padIn = function (s) { return s + ' '.repeat(Math.max(0, INNER - s.length)); };
-    var bar = function (l, r) { return l + '─'.repeat(INNER) + r; };
-    var header = ' our_wedding.jpg'.padEnd(INNER - 6) + '[_][o]';
-    // 왼쪽은 신랑(톱햇 ___ 과 보타이 =), 오른쪽은 신부(플라워 베일 .ooo. 과 드레스 :::),
-    // 가운데 ______ 는 두 사람을 잇는 붉은 실이다.
-    var body = [
-      '',
-      '           ( <3 )',
-      '       ___',
-      '      [___]      .ooo.',
-      '      (^_^)      (^_^)',
-      '      /|=|\\______/|V|\\',
-      '       | |       /:::\\',
-      '      _/ \\_     /:::::\\',
-      '',
-    ];
-    var art = [bar('┌', '┐'), '│' + header + '│', bar('├', '┤')]
-      .concat(body.map(function (b) { return '│' + padIn(b) + '│'; }))
-      .concat([bar('└', '┘')])
-      .join('\n');
-    var gn = String((CONFIG.people.groom || {}).en || '').split(' ')[0];
-    var bn = String((CONFIG.people.bride || {}).en || '').split(' ')[0];
-    var msg = 'Dear developer, thank you for celebrating our marriage! ♥\n'
-            + 'With love, ' + gn + ' ♥ ' + bn;
-    var mono = 'font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace';
-    console.log(
-      '%c' + art + '\n\n%c' + msg,
-      'color:#39d353;' + mono + ';font-size:12px;line-height:1.25',
-      'color:#e5c07b;' + mono + ';font-size:13px;font-weight:700;line-height:1.6'
-    );
-  } catch (e) {}
-})();

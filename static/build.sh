@@ -268,7 +268,6 @@ add() { TOK+=("$1=$2"); }
 add GROOM_NAME        "${GROOM_NAME:-}"
 add GROOM_NAME_SHORT  "${GROOM_NAME_SHORT:-}"
 add GROOM_NAME_EN     "${GROOM_NAME_EN:-}"
-add GROOM_ROLE        "${GROOM_ROLE:-}"
 add GROOM_PARENTS     "$(printf '%s' "${GROOM_PARENTS:-}" | sed 's/ *, */ /g')"
 add GROOM_PARENTS_0   "$(nth "${GROOM_PARENTS:-}" 1)"
 add GROOM_PARENTS_1   "$(nth "${GROOM_PARENTS:-}" 2)"
@@ -282,7 +281,6 @@ add GROOM_BRANCH      "$(branch "${GROOM_NAME_EN:-}")"
 add BRIDE_NAME        "${BRIDE_NAME:-}"
 add BRIDE_NAME_SHORT  "${BRIDE_NAME_SHORT:-}"
 add BRIDE_NAME_EN     "${BRIDE_NAME_EN:-}"
-add BRIDE_ROLE        "${BRIDE_ROLE:-}"
 add BRIDE_PARENTS     "$(printf '%s' "${BRIDE_PARENTS:-}" | sed 's/ *, */ /g')"
 add BRIDE_PARENTS_0   "$(nth "${BRIDE_PARENTS:-}" 1)"
 add BRIDE_PARENTS_1   "$(nth "${BRIDE_PARENTS:-}" 2)"
@@ -369,23 +367,18 @@ IFS="$old_ifs"
 
 
 # --- 청첩장 JS가 읽는 주입 값 (dist/js/data.js) -----------------------------
-# 청첩장 세 version의 js/config.js 가 window.__WEDDING__ 를 읽습니다.
-# 이 모양을 바꾸면 세 version이 함께 깨지므로 key 이름을 유지합니다.
+# 청첩장 두 version의 js/config.js 가 window.__WEDDING__ 를 읽습니다.
 person_json() {
   local p="$1" v
   v() { eval "printf '%s' \"\${${p}_$1:-$2}\""; }
-  printf '{"name":%s,"short":%s,"en":%s,"initial":%s,"role":%s,"parents":%s,"rankKo":%s,"rank":%s,"mbti":%s,"hobby":%s,"note":%s,"photo":%s,"photoFocus":%s,"photoZoom":%s}' \
+  printf '{"name":%s,"short":%s,"en":%s,"initial":%s,"parents":%s,"rankKo":%s,"rank":%s,"photo":%s,"photoFocus":%s,"photoZoom":%s}' \
     "$(json_str "$(v NAME '')")" \
     "$(json_str "$(v NAME_SHORT '')")" \
     "$(json_str "$(v NAME_EN '')")" \
     "$(json_str "$(v INITIAL '')")" \
-    "$(json_str "$(v ROLE '')")" \
     "$(json_list "$(v PARENTS '')")" \
     "$(json_str "$(v RANK_KO '')")" \
     "$(json_str "$(v RANK_EXPR '')")" \
-    "$(json_str "$(v MBTI '')")" \
-    "$(json_str "$(v HOBBY '')")" \
-    "$(json_str "$(v NOTE '')")" \
     "$(json_str "$(v PHOTO '')")" \
     "$(json_str "$(v PHOTO_FOCUS '50% 30%')")" \
     "$(printf '%s' "$(v PHOTO_ZOOM 1)" | awk '{v=$0+0; print (v>=1 && v<=3) ? v : 1}')"
@@ -431,7 +424,6 @@ GIFT_BLOB="$(obfuscate "$GIFT_JSON")"
   echo "window.__WEDDING__=${WEDDING_JSON};"
   echo "window.__NAVER_MAP_KEY__=$(json_str "${NAVER_MAP_KEY_ID:-}");"
   echo "window.__KAKAO_KEY__=$(json_str "${KAKAO_JS_KEY:-}");"
-  echo "window.__GA_ID__=$(json_str "${GA_MEASUREMENT_ID:-}");"
   echo "window.__GIFT__=$(json_str "$GIFT_BLOB");"
 } > "$OUT/js/data.js"
 
