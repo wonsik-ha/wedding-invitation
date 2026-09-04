@@ -28,10 +28,18 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - name: Build invitation
+        env:
+          INVITATION_CONFIG: ${{ secrets.INVITATION_CONFIG }}
+        run: |
+          test -n "$INVITATION_CONFIG"
+          printf '%s\n' "$INVITATION_CONFIG" > static/invitation.conf
+          ./static/build.sh
+
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: static/dist
 
       - name: Deploy
         id: deployment
