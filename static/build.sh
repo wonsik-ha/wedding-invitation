@@ -324,10 +324,8 @@ add INFO_MEAL    "$(br "${INFO_MEAL:-}")"
 # 공유 card image. 지정한 것이 없으면 각 version의 표지를 씁니다.
 OG_MAIN="$(photo_url "${PHOTO_OG_MAIN:-${PHOTO_MAIN:-}}")"
 OG_DEV="$(photo_url "${PHOTO_OG_DEV:-${PHOTO_MAIN_DEV:-${PHOTO_MAIN:-}}}")"
-OG_TERM="$(photo_url "${PHOTO_OG_TERMINAL:-${PHOTO_MAIN_DEV:-${PHOTO_MAIN:-}}}")"
 add OG_IMAGE_MAIN     "$OG_MAIN"
 add OG_IMAGE_DEV      "$OG_DEV"
-add OG_IMAGE_TERMINAL "$OG_TERM"
 
 # scheme 을 없앤 host. GNU 전용 \? 대신 * 를 써서 macOS sed 에서도 동작합니다.
 add HOST "$(printf '%s' "$ORIGIN" | sed -e 's#^https*://##')"
@@ -358,7 +356,7 @@ copy_photo() {
 }
 
 for photo in "${GROOM_PHOTO:-}" "${BRIDE_PHOTO:-}" "${PHOTO_MAIN:-}" "${PHOTO_MAIN_DEV:-}" \
-             "${PHOTO_BLESS:-}" "${PHOTO_OG_MAIN:-}" "${PHOTO_OG_DEV:-}" "${PHOTO_OG_TERMINAL:-}"; do
+             "${PHOTO_BLESS:-}" "${PHOTO_OG_MAIN:-}" "${PHOTO_OG_DEV:-}"; do
   copy_photo "$photo"
 done
 old_ifs="$IFS"; IFS=','
@@ -429,7 +427,12 @@ GIFT_BLOB="$(obfuscate "$GIFT_JSON")"
 
 # 만든 JSON이 유효한지 확인합니다. node가 있으면 씁니다. 없으면 건너뜁니다.
 if command -v node >/dev/null 2>&1; then
-  node -e 'JSON.parse(process.argv[1])' "$WEDDING_JSON" 2>/dev/null \
+  node -e '
+    const value = JSON.parse(process.argv[1]);
+    for (const key of ["at", "firstMetAt", "groom", "bride", "venue", "map", "photos"]) {
+      if (!Object.prototype.hasOwnProperty.call(value, key)) throw new Error("missing schema key: " + key);
+    }
+  ' "$WEDDING_JSON" 2>/dev/null \
     || die "생성한 window.__WEDDING__ JSON이 유효하지 않습니다.
   conf 값에 따옴표나 역슬래시가 섞였는지 확인해 주시기 바랍니다."
   node -e 'JSON.parse(process.argv[1])' "$GIFT_JSON" 2>/dev/null \
@@ -465,7 +468,9 @@ pages=0
 for f in "$SRC"/main.html "$SRC"/developer.html; do
   name="$(basename "$f")"
   page_url=''
-  [ -z "$ORIGIN" ] || page_url="$ORIGIN/$name"
+  if [ -n "$ORIGIN" ]; then
+    [ "$name" = 'main.html' ] && page_url="$ORIGIN/" || page_url="$ORIGIN/$name"
+  fi
   sed -f "$SEDF" -e "s|{{PAGE_URL}}|$(sed_esc "$page_url")|g" "$f" \
     | sed -E "s#(href|src)=\"((css|js)/[^\"?]*\.(css|js))\"#\\1=\"\\2?v=${ASSET_VER}\"#g" \
     > "$OUT/$name"
@@ -474,7 +479,7 @@ done
 
 # 사진이 없어 og:image 가 빈 값이면 그 meta를 지웁니다. 빈 URL을 남기면 카카오가
 # 미리보기를 못 읽고 깨진 card를 보여 줍니다.
-if [ -z "${OG_MAIN}${OG_DEV}${OG_TERM}" ]; then
+if [ -z "${OG_MAIN}${OG_DEV}" ]; then
   for f in "$OUT"/*.html; do
     sed '/<meta property="og:image/d' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
   done
@@ -487,6 +492,11 @@ case "${DEFAULT_VERSION:-main}" in
      DEF=main ;;
 esac
 cp "$OUT/${DEF}.html" "$OUT/index.html"
+
+# 허용 목록 밖의 page나 runtime 자산이 결과물에 생기면 배포 전에 실패합니다.
+for forbidden in terminal.html release.html css/terminal.css js/terminal.js; do
+  [ ! -e "$OUT/$forbidden" ] || die "배포 제외 파일이 결과물에 포함됐습니다: $forbidden"
+done
 
 
 # --- 결과 확인 -------------------------------------------------------------

@@ -291,10 +291,8 @@ $T['INFO_MEAL']    = Br (Cf 'INFO_MEAL')
 # 공유 card image. 지정한 것이 없으면 각 version의 표지를 씁니다.
 $ogMain = PhotoUrl (Cf 'PHOTO_OG_MAIN'     (Cf 'PHOTO_MAIN'))
 $ogDev  = PhotoUrl (Cf 'PHOTO_OG_DEV'      (Cf 'PHOTO_MAIN_DEV' (Cf 'PHOTO_MAIN')))
-$ogTerm = PhotoUrl (Cf 'PHOTO_OG_TERMINAL' (Cf 'PHOTO_MAIN_DEV' (Cf 'PHOTO_MAIN')))
 $T['OG_IMAGE_MAIN']     = $ogMain
 $T['OG_IMAGE_DEV']      = $ogDev
-$T['OG_IMAGE_TERMINAL'] = $ogTerm
 
 $T['HOST'] = $origin -replace '^https?://', ''
 
@@ -314,15 +312,31 @@ foreach ($d in @('js', 'css', 'assets', 'photos')) {
 }
 Write-Text ([IO.Path]::Combine($Out, $stamp)) "build.ps1 산출물입니다. 이 파일이 있어야 다음 build가 이 directory를 비웁니다.`n"
 
-foreach ($d in @('css', 'js', 'assets')) {
-  Copy-Item -Path ([IO.Path]::Combine($src, $d) + '\*') -Destination ([IO.Path]::Combine($Out, $d)) -Recurse -Force
+foreach ($file in @('main.css', 'developer.css')) {
+  Copy-Item -LiteralPath ([IO.Path]::Combine($src, 'css', $file)) -Destination ([IO.Path]::Combine($Out, 'css')) -Force
 }
-# 사진은 있으면 함께 옮깁니다. README 만 있는 상태도 정상입니다.
+foreach ($file in @('config.js', 'private.js', 'main.js', 'developer.js')) {
+  Copy-Item -LiteralPath ([IO.Path]::Combine($src, 'js', $file)) -Destination ([IO.Path]::Combine($Out, 'js')) -Force
+}
+Copy-Item -Path ([IO.Path]::Combine($src, 'assets') + '\*') -Destination ([IO.Path]::Combine($Out, 'assets')) -Recurse -Force
+
+# 설정에서 실제로 선택한 사진만 옮깁니다.
 $photoSrc = [IO.Path]::Combine($src, 'photos')
-if (Test-Path -LiteralPath $photoSrc) {
-  Get-ChildItem -LiteralPath $photoSrc -File | Where-Object { $_.Name -notlike 'README*' } |
-    ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination ([IO.Path]::Combine($Out, 'photos')) -Force }
+function Copy-Photo([string]$photo) {
+  if (-not $photo) { return }
+  if ([IO.Path]::GetFileName($photo) -ne $photo) { Fail "사진에는 파일 이름만 적을 수 있습니다: $photo" }
+  $source = [IO.Path]::Combine($photoSrc, $photo)
+  if (Test-Path -LiteralPath $source) {
+    Copy-Item -LiteralPath $source -Destination ([IO.Path]::Combine($Out, 'photos')) -Force
+  }
 }
+foreach ($photo in @(
+  (Cf 'GROOM_PHOTO'), (Cf 'BRIDE_PHOTO'), (Cf 'PHOTO_MAIN'), (Cf 'PHOTO_MAIN_DEV'),
+  (Cf 'PHOTO_BLESS'), (Cf 'PHOTO_OG_MAIN'), (Cf 'PHOTO_OG_DEV')
+)) {
+  Copy-Photo $photo
+}
+foreach ($photo in (SplitList (Cf 'PHOTO_GALLERY'))) { Copy-Photo $photo }
 
 
 # --- 청첩장 JS가 읽는 주입 값 (dist/js/data.js) -----------------------------
@@ -365,6 +379,13 @@ $weddingJson = '{"at":' + (JStr (Cf 'WEDDING_AT')) +
     ',"galleryPageOrder":{"main":' + (JNums (Cf 'GALLERY_ORDER_MAIN')) +
       ',"dev":' + (JNums (Cf 'GALLERY_ORDER_DEV')) + '}}}'
 
+$parsedWedding = $weddingJson | ConvertFrom-Json
+foreach ($key in @('at', 'firstMetAt', 'groom', 'bride', 'venue', 'map', 'photos')) {
+  if ($parsedWedding.PSObject.Properties.Name -notcontains $key) {
+    Fail "생성한 window.__WEDDING__ JSON에 필수 key가 없습니다: $key"
+  }
+}
+
 $giftJson = '{"accounts":{"groom":' + (JAccounts (Cf 'GROOM_ACCOUNTS')) +
   ',"bride":' + (JAccounts (Cf 'BRIDE_ACCOUNTS')) + '}}'
 $giftBlob = Obfuscate $giftJson
@@ -402,7 +423,8 @@ $assetVer = -join ($hash[0..3] | ForEach-Object { $_.ToString('x2') })
 
 # --- HTML 치환 --------------------------------------------------------------
 $pages = 0
-foreach ($file in (Get-ChildItem -LiteralPath $src -Filter '*.html' -File)) {
+foreach ($name in @('main.html', 'developer.html')) {
+  $file = Get-Item -LiteralPath ([IO.Path]::Combine($src, $name))
   $html = Read-Text $file.FullName
 
   # 주입 script를 config.js 앞에 넣습니다.
@@ -416,12 +438,15 @@ foreach ($file in (Get-ChildItem -LiteralPath $src -Filter '*.html' -File)) {
   # 이름과 예식 정보 token
   foreach ($k in $T.Keys) { $html = $html.Replace('{{' + $k + '}}', [string]$T[$k]) }
   $pageUrl = ''
-  if ($origin) { $pageUrl = "$origin/$($file.Name)" }
+  if ($origin) {
+    if ($file.Name -eq 'main.html') { $pageUrl = "$origin/" }
+    else { $pageUrl = "$origin/$($file.Name)" }
+  }
   $html = $html.Replace('{{PAGE_URL}}', $pageUrl)
 
   # 사진이 없어 og:image 가 빈 값이면 그 meta를 지웁니다. 빈 URL을 남기면 카카오가
   # 미리보기를 못 읽고 깨진 card를 보여 줍니다.
-  if (-not ($ogMain + $ogDev + $ogTerm)) {
+  if (-not ($ogMain + $ogDev)) {
     $html = ($html -split "`n" | Where-Object { $_ -notmatch '<meta property="og:image' }) -join "`n"
   }
 
@@ -431,11 +456,18 @@ foreach ($file in (Get-ChildItem -LiteralPath $src -Filter '*.html' -File)) {
 
 # 처음 열었을 때 보여줄 version을 index.html 로 복사합니다.
 $def = Cf 'DEFAULT_VERSION' 'main'
-if (@('main', 'developer', 'terminal') -notcontains $def) {
-  Write-Host "  경고: DEFAULT_VERSION='$def' 은 main, developer, terminal 중 하나여야 합니다. main으로 둡니다."
+if (@('main', 'developer') -notcontains $def) {
+  Write-Host "  경고: DEFAULT_VERSION='$def' 은 main 또는 developer여야 합니다. main으로 둡니다."
   $def = 'main'
 }
 Copy-Item -LiteralPath ([IO.Path]::Combine($Out, "$def.html")) -Destination ([IO.Path]::Combine($Out, 'index.html')) -Force
+
+# 허용 목록 밖의 page나 runtime 자산이 결과물에 생기면 배포 전에 실패합니다.
+foreach ($forbidden in @('terminal.html', 'release.html', 'css/terminal.css', 'js/terminal.js')) {
+  if (Test-Path -LiteralPath ([IO.Path]::Combine($Out, $forbidden))) {
+    Fail "배포 제외 파일이 결과물에 포함됐습니다: $forbidden"
+  }
+}
 
 
 # --- 결과 확인 -------------------------------------------------------------

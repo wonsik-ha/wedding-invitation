@@ -27,11 +27,13 @@ cp invitation.conf.example invitation.conf
 2. `static/build.sh` 실행
 3. `static/dist/`를 GitHub Pages에 배포
 
+`SITE_ORIGIN`에는 도메인만이 아니라 repository 경로까지 포함한 실제 공개 루트 URL인 `https://wonsik-ha.github.io/wedding-invitation`을 입력해야 합니다. 빌드가 main의 `og:url`과 공유 링크는 이 루트로, developer 페이지는 이 루트의 `/developer.html`로 고정합니다.
+
 사진을 추가하거나 예식 정보를 바꾸면 로컬 `static/invitation.conf`를 수정한 다음, 같은 전체 내용을 GitHub Secret `INVITATION_CONFIG`에도 다시 저장해야 합니다.
 
 ## 사진 추가
 
-사진 파일은 `static/src/photos/`에 넣고 `static/invitation.conf`의 `PHOTO_MAIN`, `PHOTO_GROOM`, `PHOTO_BRIDE`, `GALLERY` 등에 파일명을 지정합니다. 실제 사진은 실수로 공개되지 않도록 기본적으로 `.gitignore` 대상입니다. GitHub Pages에 올려도 되는 사진인지 확인한 뒤 필요한 파일만 `git add -f static/src/photos/<파일명>`으로 명시적으로 추가해야 합니다.
+사진 파일은 `static/src/photos/`에 넣고 `static/invitation.conf`의 `PHOTO_MAIN`, `GROOM_PHOTO`, `BRIDE_PHOTO`, `PHOTO_GALLERY` 등에 파일명을 지정합니다. 실제 사진은 실수로 공개되지 않도록 기본적으로 `.gitignore` 대상입니다. GitHub Pages에 올려도 되는 사진인지 확인한 뒤 필요한 파일만 `git add -f static/src/photos/<파일명>`으로 명시적으로 추가해야 합니다.
 
 현재 사진은 모두 `TBU`로 표시됩니다.
 
