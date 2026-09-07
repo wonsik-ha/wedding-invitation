@@ -330,20 +330,28 @@ document.getElementById('calTitle').textContent =
 /* 05. 복사 button */
 
 function flashCopied(button, label = '복사됨 ✓') {
-  const original = button.textContent;
-  button.textContent = label;
+  const labelElement = button.querySelector('.map-action__label');
+  const original = labelElement ? labelElement.textContent : button.textContent;
+  const originalAriaLabel = button.getAttribute('aria-label');
+
+  if (labelElement) labelElement.textContent = label;
+  else button.textContent = label;
   button.classList.add('copied');
+  button.setAttribute('aria-label', label);
 
   setTimeout(() => {
-    button.textContent = original;
+    if (labelElement) labelElement.textContent = original;
+    else button.textContent = original;
     button.classList.remove('copied');
+    if (originalAriaLabel) button.setAttribute('aria-label', originalAriaLabel);
   }, 1600);
 }
 
 document.getElementById('copyAddr').addEventListener('click', (e) => {
+  const button = e.currentTarget;
   navigator.clipboard
     .writeText(CONFIG.address)
-    .then(() => flashCopied(e.target));
+    .then(() => flashCopied(button));
 });
 
 // 계좌 복사는 js/private.js가 맡는다. server가 주입하고, 펼칠 때만 render한다.

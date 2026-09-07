@@ -44,12 +44,12 @@
 - Spacing/layout rhythm: 기존 430px 모바일 폭과 넉넉한 세로 여백 유지
 - Shape/radius/elevation: 아치형 표지, 부드러운 모서리, 낮은 명도의 녹색 그림자
 - Motion: 기존 scroll reveal 유지, 과도한 신규 motion 금지
-- Imagery/iconography: 전달받은 실제 웨딩 사진을 메인 표지와 공유 미리보기에 사용
+- Imagery/iconography: 전달받은 실제 웨딩 사진을 메인 표지와 공유 미리보기에 사용하며, 지도 동작은 네이버지도·카카오맵 공식 아이콘과 짧은 이름을 함께 표시
 
 ## Components
 
 - Existing components to reuse: `.paper`, `.cover`, `.arch-photo`, `.venue-card`, `.share-btn`
-- New/changed components: 기본 청첩장 색상 token과 녹색 placeholder 상태
+- New/changed components: 기본 청첩장 색상 token, 녹색 placeholder 상태, 3열 지도·주소 아이콘 메뉴
 - Variants and states: 사진 로딩, TBU, 지도 fallback, 공유 fallback
 - Token/component ownership: 기본 청첩장 token은 `static/src/css/main.css`의 마지막 `:root` override가 소유
 

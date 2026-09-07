@@ -621,6 +621,103 @@ section {
   margin-top: 18px;
 }
 
+/* 지도와 주소 기능은 모바일에서 빠르게 구분되는 icon menu로 표시한다. */
+.map-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.map-action {
+  min-width: 0;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--sans);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.map-action__icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 8px;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  box-shadow: 0 10px 20px -14px rgba(23, 55, 39, 0.55);
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+
+.map-action__icon--brand {
+  overflow: hidden;
+  background: #fff;
+}
+
+.map-action__icon--brand img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.map-action__icon--copy {
+  background: var(--card);
+  color: var(--rose);
+}
+
+.map-action__icon svg {
+  width: 27px;
+  height: 27px;
+}
+
+.map-action__icon--copy path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.map-action__check { display: none; }
+
+.map-action__label {
+  display: block;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--soft);
+}
+
+.map-action:active .map-action__icon {
+  transform: scale(0.94);
+}
+
+.map-action:focus-visible {
+  outline: 2px solid var(--rose);
+  outline-offset: 4px;
+  border-radius: 18px;
+}
+
+@media (hover: hover) {
+  .map-action:hover .map-action__icon {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 24px -14px rgba(23, 55, 39, 0.65);
+  }
+}
+
+.map-action.copied .map-action__icon--copy {
+  border-color: var(--leaf);
+  background: #e3eee0;
+}
+
+.map-action.copied .map-action__copy { display: none; }
+.map-action.copied .map-action__check { display: block; }
+.map-action.copied .map-action__label { color: var(--leaf); }
+
 /* 주차 안내 */
 .parking-note {
   margin-top: 16px;
