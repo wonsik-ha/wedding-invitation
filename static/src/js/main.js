@@ -91,24 +91,34 @@ const blessPhotoEl = document.getElementById('blessPhoto');
 if (blessPhotoEl && CONFIG.photos.bless) blessPhotoEl.src = photoSrc(CONFIG.photos.bless);
 else if (blessPhotoEl) blessPhotoEl.style.display = 'none';
 
-// gallery. 3x3 pagination이라 한 page에 9장씩 나눠 보여준다.
+// gallery. 한 장씩 보이는 horizontal carousel이며 touch swipe와 button 탐색을 함께 지원한다.
 const galleryEl = document.getElementById('gallery');
-const GALLERY_PAGE = 9;   // 3x3, 한 page 9장
 
-// main(main) version의 page 순서로 재배열한 gallery. config.js의 orderedGallery가 page 단위로 옮긴다.
+// main version의 설정 순서대로 carousel 사진을 구성한다.
 const GALLERY = orderedGallery((CONFIG.photos.galleryPageOrder || {}).main);
-galleryEl.classList.toggle('gallery-single', GALLERY.length === 1);
+galleryEl.setAttribute('role', 'region');
+galleryEl.setAttribute('aria-roledescription', 'carousel');
+galleryEl.setAttribute('aria-label', '우리의 순간들 사진');
 
 // lightbox는 page와 무관하게 gallery 전체를 순환한다.
 GALLERY.forEach((src) => loadedPhotos.push(src));
 
-// 아이템을 한 번만 만들어 두면 page를 넘겨도 다시 내려받지 않는다.
+// 아이템을 한 번만 만들어 두면 slide를 넘겨도 다시 내려받지 않는다.
 const galleryItems = GALLERY.map((src, i) => {
   const item = document.createElement('figure');
   item.className = 'g-item';
   item.style.cursor = 'zoom-in';
+  item.tabIndex = 0;
+  item.setAttribute('role', 'button');
+  item.setAttribute('aria-label', `웨딩 사진 ${i + 1} 크게 보기`);
   item.appendChild(createPhoto(src, { caption: `웨딩 사진 ${i + 1}` }));
   item.addEventListener('click', () => openLightbox(src));
+  item.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openLightbox(src);
+    }
+  });
   return item;
 });
 
@@ -121,74 +131,77 @@ if (!GALLERY.length) {
   if (hint) hint.textContent = '사진 TBU';
 }
 
-const galleryPages = Math.max(1, Math.ceil(galleryItems.length / GALLERY_PAGE));
-let galleryPage = 0;
+galleryEl.replaceChildren(...galleryItems);
 
-const galleryPager = document.createElement('div');
-galleryPager.className = 'gallery-pager';
-galleryEl.insertAdjacentElement('afterend', galleryPager);
+let gallerySlide = 0;
+const galleryControls = document.createElement('div');
+galleryControls.className = 'gallery-carousel-controls';
 
-function renderGallery(p) {
-  const target = Math.min(Math.max(0, p), galleryPages - 1);
-  const dir = Math.sign(target - galleryPage);   // 다음(+1) 또는 이전(-1) 방향으로 slide 인
-  galleryPage = target;
-  const start = galleryPage * GALLERY_PAGE;
-  galleryEl.replaceChildren(...galleryItems.slice(start, start + GALLERY_PAGE));
-  renderGalleryPager();
-  if (dir !== 0) {
-    galleryEl.style.transition = 'none';
-    galleryEl.style.transform = 'translateX(' + (dir * 26) + 'px)';
-    galleryEl.style.opacity = '0';
-    void galleryEl.offsetWidth;                   // reflow를 강제한 뒤에 transition을 건다
-    galleryEl.style.transition = 'transform .34s cubic-bezier(.22,1,.36,1), opacity .3s ease';
-    galleryEl.style.transform = 'translateX(0)';
-    galleryEl.style.opacity = '1';
-  }
+const galleryPrev = document.createElement('button');
+galleryPrev.type = 'button';
+galleryPrev.className = 'gallery-arrow';
+galleryPrev.setAttribute('aria-label', '이전 사진');
+galleryPrev.textContent = '‹';
+
+const galleryDots = document.createElement('div');
+galleryDots.className = 'gallery-dots';
+galleryDots.setAttribute('aria-label', '사진 선택');
+
+const galleryNext = document.createElement('button');
+galleryNext.type = 'button';
+galleryNext.className = 'gallery-arrow';
+galleryNext.setAttribute('aria-label', '다음 사진');
+galleryNext.textContent = '›';
+
+const dotButtons = GALLERY.map((_, i) => {
+  const dot = document.createElement('button');
+  dot.type = 'button';
+  dot.className = 'gallery-dot';
+  dot.setAttribute('aria-label', `${i + 1}번째 사진 보기`);
+  dot.addEventListener('click', () => goToGallerySlide(i));
+  galleryDots.appendChild(dot);
+  return dot;
+});
+
+function updateGalleryControls(index) {
+  gallerySlide = Math.min(Math.max(0, index), GALLERY.length - 1);
+  galleryPrev.disabled = gallerySlide === 0;
+  galleryNext.disabled = gallerySlide === GALLERY.length - 1;
+  dotButtons.forEach((dot, i) => {
+    dot.classList.toggle('active', i === gallerySlide);
+    if (i === gallerySlide) dot.setAttribute('aria-current', 'true');
+    else dot.removeAttribute('aria-current');
+  });
 }
 
-function renderGalleryPager() {
-  if (galleryPages <= 1) { galleryPager.replaceChildren(); return; }
-  const frag = document.createDocumentFragment();
-  const btn = (label, page, opts = {}) => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'pg-btn' + (opts.active ? ' active' : '');
-    b.textContent = label;
-    if (opts.disabled) b.disabled = true;
-    else b.addEventListener('click', () => renderGallery(page));
-    return b;
-  };
-  frag.appendChild(btn('‹', galleryPage - 1, { disabled: galleryPage === 0 }));
-  for (let i = 0; i < galleryPages; i++) {
-    frag.appendChild(btn(String(i + 1), i, { active: i === galleryPage }));
-  }
-  frag.appendChild(btn('›', galleryPage + 1, { disabled: galleryPage === galleryPages - 1 }));
-  galleryPager.replaceChildren(frag);
+function goToGallerySlide(index, behavior = 'smooth') {
+  const target = Math.min(Math.max(0, index), GALLERY.length - 1);
+  const item = galleryItems[target];
+  if (!item) return;
+  galleryEl.scrollTo({ left: item.offsetLeft - galleryEl.offsetLeft, behavior });
+  updateGalleryControls(target);
 }
 
-renderGallery(0);
+if (GALLERY.length > 1) {
+  galleryControls.append(galleryPrev, galleryDots, galleryNext);
+  galleryEl.insertAdjacentElement('afterend', galleryControls);
+  galleryPrev.addEventListener('click', () => goToGallerySlide(gallerySlide - 1));
+  galleryNext.addEventListener('click', () => goToGallerySlide(gallerySlide + 1));
 
-// gallery 좌우 swipe로 page를 넘긴다. gesture 방향을 초기에 판정한다(directional lock).
-// 가로로 확정되면 세로 scroll을 막아, 대각선 swipe 시 page가 위아래로 밀리지 않게 한다.
-let gSwipeX = 0, gSwipeY = 0, gLock = null;   // gLock: null(미정) | 'h'(가로) | 'v'(세로)
-galleryEl.addEventListener('touchstart', (e) => {
-  gSwipeX = e.touches[0].clientX; gSwipeY = e.touches[0].clientY; gLock = null;
-}, { passive: true });
-galleryEl.addEventListener('touchmove', (e) => {
-  const dx = e.touches[0].clientX - gSwipeX;
-  const dy = e.touches[0].clientY - gSwipeY;
-  if (gLock === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
-    gLock = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
-  }
-  if (gLock === 'h') e.preventDefault();      // 가로 swipe 확정 → 세로 scroll 잠금
-}, { passive: false });
-galleryEl.addEventListener('touchend', (e) => {
-  const dx = e.changedTouches[0].clientX - gSwipeX;
-  if (gLock === 'h' && Math.abs(dx) > 48) {
-    renderGallery(galleryPage + (dx > 0 ? -1 : 1));   // 오른쪽=이전, 왼쪽=다음
-  }
-  gLock = null;
-}, { passive: true });
+  let galleryScrollFrame = 0;
+  galleryEl.addEventListener('scroll', () => {
+    cancelAnimationFrame(galleryScrollFrame);
+    galleryScrollFrame = requestAnimationFrame(() => {
+      const nearest = galleryItems.reduce((best, item, i) => {
+        const distance = Math.abs(item.offsetLeft - galleryEl.offsetLeft - galleryEl.scrollLeft);
+        return distance < best.distance ? { index: i, distance } : best;
+      }, { index: 0, distance: Infinity });
+      updateGalleryControls(nearest.index);
+    });
+  }, { passive: true });
+}
+
+updateGalleryControls(0);
 
 // 첫 방문에도 좌우 swipe가 바로 보이도록, 초기 load 뒤 gallery 사진 전체를 미리 받아 cache에 올린다.
 const _preloaded = [];

@@ -272,21 +272,30 @@ section {
 
 /* 06. gallery (가로 swipe) & lightbox */
 
-/* gallery. 3열 정사각 grid이며, 사진이 늘면 아래로 자동 확장된다. */
+/* gallery. 모바일에서 한 장씩 좌우로 넘기는 scroll-snap carousel. */
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
+
+.gallery::-webkit-scrollbar { display: none; }
 
 .g-item {
   position: relative;
-  aspect-ratio: 1 / 1;
+  flex: 0 0 100%;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: 16px;
   background: var(--card);
   cursor: pointer;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
   box-shadow: 0 8px 18px -14px rgba(95, 75, 55, 0.30);
 }
 
@@ -298,73 +307,92 @@ section {
 }
 
 .gallery-empty {
-  grid-column: 1 / -1;
   aspect-ratio: 16 / 9;
   cursor: default;
 }
 
-/* 사진이 한 장일 때는 작은 thumbnail 대신 온전한 한 장으로 보여준다. */
-.gallery.gallery-single {
-  grid-template-columns: 1fr;
-}
-
-.gallery.gallery-single .g-item {
-  aspect-ratio: 4 / 5;
-  border-radius: 16px;
-}
-
 .gallery-hint {
-  margin-top: 16px;
+  margin-top: 12px;
   text-align: center;
   font-size: 13.5px;
   letter-spacing: 0.16em;
   color: var(--faint);
 }
 
-/* gallery 3×3 pagination */
-.gallery-pager {
+/* carousel 이전·다음 button과 현재 slide dot */
+.gallery-carousel-controls {
   display: flex;
+  align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 18px;
+  gap: 16px;
+  margin-top: 16px;
 }
 
-.gallery-pager .pg-btn {
-  min-width: 32px;
-  height: 32px;
-  padding: 0 8px;
-  -webkit-appearance: none;   /* iOS의 native button rendering을 끈다. active 숫자가 안 보이던 문제를 막는다. */
+.gallery-arrow {
+  width: 36px;
+  height: 36px;
+  padding: 0 0 3px;
+  -webkit-appearance: none;
   appearance: none;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  font-family: var(--sans);
-  font-size: 13px;
-  color: var(--soft);
+  border-radius: 50%;
+  font-family: var(--serif);
+  font-size: 24px;
+  line-height: 1;
+  color: var(--ink);
   cursor: pointer;
-  transition: border-color 0.25s, color 0.25s, background 0.25s;
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
 }
 
-/* hover는 실제 pointer(마우스) 기기에서만 적용한다.
-   touch에서는 tap한 뒤 :hover가 고착돼 비활성 page button이 활성(rose 테두리)처럼 보였다. */
+.gallery-arrow:active:not(:disabled) { transform: scale(0.94); }
+.gallery-arrow:disabled { opacity: 0.32; cursor: default; }
+
+.gallery-arrow:focus-visible,
+.gallery-dot:focus-visible {
+  outline: 2px solid var(--rose);
+  outline-offset: 3px;
+}
+
+.gallery-dots {
+  display: flex;
+  align-items: center;
+}
+
+.gallery-dot {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.gallery-dot::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, border-radius 0.2s, background 0.2s;
+}
+
+.gallery-dot.active::before {
+  width: 22px;
+  border-radius: 99px;
+  background: var(--rose);
+}
+
 @media (hover: hover) {
-  .gallery-pager .pg-btn:hover:not(:disabled) {
+  .gallery-arrow:hover:not(:disabled) {
     border-color: var(--rose);
     color: var(--rose);
   }
-}
-
-.gallery-pager .pg-btn.active {
-  background: var(--rose);
-  border-color: var(--rose);
-  color: #fff;
-  -webkit-text-fill-color: #fff;   /* iOS: color가 무시돼 숫자가 안 보이던 것 강제 지정 */
-}
-
-.gallery-pager .pg-btn:disabled {
-  opacity: 0.4;
-  cursor: default;
 }
 
 /* 사진 placeholder */

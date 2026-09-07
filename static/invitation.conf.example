@@ -115,7 +115,7 @@ INFO_MEAL="예식 30분 전부터 식사하실 수 있습니다.\n같은 층 연
 #   PHOTO_MAIN      main version 표지
 #   PHOTO_MAIN_DEV  developer version 표지. terminal version에는 표지가 없습니다.
 #   PHOTO_BLESS     축하 전하기 아래 전체폭 사진
-#   PHOTO_GALLERY   gallery 목록. 3x3 pagination이라 9장이 한 page입니다.
+#   PHOTO_GALLERY   gallery 목록. main은 carousel, developer는 3x3 pagination으로 표시합니다.
 PHOTO_MAIN="demo-cover.jpg"
 PHOTO_MAIN_DEV="demo-cover-dev.jpg"
 PHOTO_BLESS="demo-bless.jpg"
