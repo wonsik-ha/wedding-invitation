@@ -1149,28 +1149,24 @@ footer .share-btn:active { transform: scale(0.97); }
    [A]의 layout 위에 색과 font와 여백을 다시 입힌다. */
 
 :root {
-  /* 면(surface): 따뜻한 ivory 화이트 */
-  --paper: #fffdfb;
-  --paper-deep: #f3ede6;
-  --card: #ffffff;
+  /* 전달받은 야외 사진에서 가져온 forest와 sage surface */
+  --paper: #eff4eb;
+  --paper-deep: #173727;
+  --card: #f8faf5;
 
-  /* 선(line): 따뜻한 hairline */
-  --line: #ece5dd;
-  --line-soft: #f4efe9;
+  --line: #c6d4c3;
+  --line-soft: #d8e2d4;
 
-  /* 글자: 부드러운 웜 charcoal. 본문과 보조 text를 더 진하게 잡아 가독성을 올렸다.
-     soft는 #978d82(약 2.7:1)에서 #6f665a(약 5.8:1)로,
-     faint는 #c2b8ac(약 1.9:1)에서 #7d7466(약 4.4:1)로 올렸다. */
-  --ink: #35302a;
-  --ink-bright: #1c1813;
-  --soft: #6f665a;
-  --faint: #7d7466;
+  --ink: #26372c;
+  --ink-bright: #10291b;
+  --soft: #526657;
+  --faint: #57695d;
 
-  /* 포인트: 로맨틱 red-rose, 웜 gold, sage */
-  --rose: #a94258;
-  --rose-soft: #f0d3d8;
-  --leaf: #7e977f;
-  --gold: #8b6a4c;
+  /* 수목의 짙은 녹색과 부케의 해바라기색을 포인트로 사용 */
+  --rose: #356044;
+  --rose-soft: #b9ceb8;
+  --leaf: #416d4d;
+  --gold: #765a18;
 
   /* font: 본문은 Gowun Dodum, 제목과 serif는 Gowun Batang */
   --sans: 'Gowun Dodum', 'Apple SD Gothic Neo', sans-serif;
@@ -1228,7 +1224,7 @@ body::before { display: none; }
 .arch-photo {
   margin-top: 28px;          /* 아치 사진과 예식장 문구 사이 공백을 줄인다 */
   border-color: var(--line);
-  box-shadow: 0 26px 54px -30px rgba(120, 70, 60, 0.32);
+  box-shadow: 0 26px 54px -30px rgba(23, 55, 39, 0.46);
 }
 
 
@@ -1300,7 +1296,7 @@ body::before { display: none; }
   aspect-ratio: 4 / 5;
   overflow: hidden;
   border-radius: 16px;
-  background: #f3e6ea;   /* image load 전 배경 */
+  background: #dce8d7;   /* image load 전 배경 */
 }
 
 .pf-photo img {
@@ -1315,7 +1311,7 @@ body::before { display: none; }
 .pf-photo.is-empty {
   display: grid;
   place-items: center;
-  background: linear-gradient(150deg, #f8ebe9, #f3e6ea);   /* 사진 없을 때만 배경(이니셜) */
+  background: linear-gradient(150deg, #e9f0e5, #dce8d7);
   font-family: var(--display);
   font-size: 44px;
   color: var(--rose);
@@ -1394,7 +1390,7 @@ body::before { display: none; }
 .pf-tag {
   padding: 4px 11px;
   border-radius: 99px;
-  background: #fbeef0;
+  background: #e3eee0;
   font-size: 12.5px;
   color: var(--rose);
 }
@@ -1428,15 +1424,16 @@ body::before { display: none; }
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 4px rgba(194, 86, 106, 0.14); }
-  50%      { box-shadow: 0 0 0 8px rgba(194, 86, 106, 0.07); }
+  0%, 100% { box-shadow: 0 0 0 4px rgba(53, 96, 68, 0.16); }
+  50%      { box-shadow: 0 0 0 8px rgba(53, 96, 68, 0.08); }
 }
 
 
 /* button, 축하, lightbox: 톤에 맞춰 보정 */
 
 /* 사진 자리표시. 중립 톤. */
-.g-item     { box-shadow: 0 14px 30px -22px rgba(120, 70, 60, 0.24); }
+.g-item     { box-shadow: 0 14px 30px -22px rgba(23, 55, 39, 0.3); }
+.ph-placeholder { background: linear-gradient(150deg, #e9f0e5, #dce8d7); }
 
 /* gallery 안내 문구를 가독성을 위해 조금 더 진한 색으로 */
 .gallery-hint { color: var(--soft); }
@@ -1449,13 +1446,13 @@ body::before { display: none; }
   border-color: var(--rose-soft);
   color: var(--rose);
   font-family: var(--display);
-  box-shadow: 0 14px 28px -18px rgba(194, 86, 106, 0.3);
+  box-shadow: 0 14px 28px -18px rgba(53, 96, 68, 0.34);
 }
 
 .bless-btn:hover { border-color: var(--rose); }
 
 /* lightbox 배경. 따뜻한 dark. */
-.lightbox { background: rgba(28, 20, 18, 0.93); }
+.lightbox { background: rgba(12, 35, 23, 0.94); }
 
 /* hidden page banner(예식 후 노출). 옅은 sage. */
 .release-banner {
