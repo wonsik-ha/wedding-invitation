@@ -97,6 +97,7 @@ const GALLERY_PAGE = 9;   // 3x3, 한 page 9장
 
 // main(main) version의 page 순서로 재배열한 gallery. config.js의 orderedGallery가 page 단위로 옮긴다.
 const GALLERY = orderedGallery((CONFIG.photos.galleryPageOrder || {}).main);
+galleryEl.classList.toggle('gallery-single', GALLERY.length === 1);
 
 // lightbox는 page와 무관하게 gallery 전체를 순환한다.
 GALLERY.forEach((src) => loadedPhotos.push(src));

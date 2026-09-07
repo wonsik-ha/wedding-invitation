@@ -50,7 +50,7 @@
 
 - Existing components to reuse: `.paper`, `.cover`, `.arch-photo`, `.venue-card`, `.share-btn`
 - New/changed components: 기본 청첩장 색상 token, 녹색 placeholder 상태, 3열 지도·주소 아이콘 메뉴
-- Variants and states: 사진 로딩, TBU, 지도 fallback, 공유 fallback
+- Variants and states: 사진 로딩, TBU, 단일 사진 전체폭 갤러리, 다중 사진 3열 갤러리, 지도 fallback, 공유 fallback
 - Token/component ownership: 기본 청첩장 token은 `static/src/css/main.css`의 마지막 `:root` override가 소유
 
 ## Accessibility

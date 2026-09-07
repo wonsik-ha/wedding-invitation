@@ -303,6 +303,16 @@ section {
   cursor: default;
 }
 
+/* 사진이 한 장일 때는 작은 thumbnail 대신 온전한 한 장으로 보여준다. */
+.gallery.gallery-single {
+  grid-template-columns: 1fr;
+}
+
+.gallery.gallery-single .g-item {
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+}
+
 .gallery-hint {
   margin-top: 16px;
   text-align: center;
