@@ -30,8 +30,19 @@
 
   <script>
     try {
-      if (localStorage.getItem('wedding-font-large') === '1') {
-        document.documentElement.classList.add('font-large');
+      var storedFontLevel = localStorage.getItem('wedding-font-level');
+      var fontLevel = storedFontLevel === null
+        ? (localStorage.getItem('wedding-font-large') === '1' ? 1 : 0)
+        : parseInt(storedFontLevel, 10);
+
+      if (fontLevel !== 0 && fontLevel !== 1 && fontLevel !== 2) {
+        fontLevel = 0;
+      }
+
+      document.documentElement.style.setProperty('--font-boost', (fontLevel * 3) + 'px');
+
+      if (localStorage.getItem('wedding-font-controls-collapsed') === '1') {
+        document.documentElement.classList.add('font-controls-collapsed');
       }
     } catch (_) {}
   </script>
@@ -298,14 +309,30 @@
   </footer>
 </main>
 
-<button
-  class="text-size-toggle"
-  id="textSizeToggle"
-  type="button"
-  aria-label="가+, 글자 크게 보기"
-  aria-pressed="false"
-  title="글자 크게 보기"
->가+</button>
+<div class="text-size-controls" id="textSizeControls" role="group" aria-label="글자 크기 조절">
+  <button
+    class="text-size-action"
+    id="textSizeIncrease"
+    type="button"
+    aria-label="가+, 글자 크게 보기"
+    title="글자 크게 보기"
+  >가+</button>
+  <button
+    class="text-size-action"
+    id="textSizeDecrease"
+    type="button"
+    aria-label="가−, 글자 작게 보기"
+    title="글자 작게 보기"
+  >가−</button>
+  <button
+    class="text-size-collapse"
+    id="textSizeCollapse"
+    type="button"
+    aria-label="›, 글자 크기 조절 접기"
+    aria-expanded="true"
+    title="글자 크기 조절 접기"
+  >›</button>
+</div>
 
 
 <!-- lightbox -->

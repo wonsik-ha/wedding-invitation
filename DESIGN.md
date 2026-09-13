@@ -49,14 +49,14 @@
 ## Components
 
 - Existing components to reuse: `.paper`, `.cover`, `.arch-photo`, `.venue-card`, `.share-btn`
-- New/changed components: 기본 청첩장 색상 token, 녹색 placeholder 상태, 3열 지도·주소 아이콘 메뉴, 사진 캐러셀, 화면 오른쪽 고정 글자 크기 toggle
-- Variants and states: 사진 로딩, TBU, 좌우 스와이프·화살표·현재 위치 dot가 있는 캐러셀, 지도 fallback, 공유 fallback, 기본·큰 글자 상태
+- New/changed components: 기본 청첩장 색상 token, 녹색 placeholder 상태, 3열 지도·주소 아이콘 메뉴, 사진 캐러셀, 화면 오른쪽 고정 글자 크기 조절 도구
+- Variants and states: 사진 로딩, TBU, 좌우 스와이프·화살표·현재 위치 dot가 있는 캐러셀, 지도 fallback, 공유 fallback, 기본·1단계 확대·2단계 확대와 펼침·접힘 상태
 - Token/component ownership: 기본 청첩장 token은 `static/src/css/main.css`의 마지막 `:root` override가 소유
 
 ## Accessibility
 
 - Target standard: WCAG 2.1 AA 대비, Lighthouse Accessibility 100 유지
-- Keyboard/focus behavior: 기존 button/link focus와 browser 확대 허용 유지, 글자 크기 toggle은 44px 이상의 touch target과 `aria-pressed` 상태 제공
+- Keyboard/focus behavior: 기존 button/link focus와 browser 확대 허용 유지, 확대·축소·접기 버튼은 각각 44px 이상의 touch target과 명확한 접근성 이름·비활성 상태 제공
 - Contrast/readability: 긴 본문은 옅은 배경과 짙은 글자, 포인트색도 4.5:1 이상을 목표로 함
 - Screen-reader semantics: 기존 `main`, section, button label 유지
 - Reduced motion and sensory considerations: 기존 reduced-motion 대응을 보존
@@ -64,7 +64,7 @@
 ## Responsive behavior
 
 - Supported breakpoints/devices: iPhone Safari, Android Chrome, 최대 콘텐츠 폭 430px
-- Layout adaptations: 작은 화면에서도 가로 overflow 없이 1열 스크롤, 글자 크기 toggle은 모바일 화면 및 430px 본문 오른쪽 안쪽에 고정
+- Layout adaptations: 작은 화면에서도 가로 overflow 없이 1열 스크롤, 글자 크기 조절 도구는 모바일 화면 및 430px 본문 오른쪽 안쪽에 고정하며 접으면 단일 `가` 버튼만 유지
 - Touch/hover differences: 핵심 동작은 touch로 완결되며 hover에 의존하지 않음
 
 ## Interaction states
@@ -72,8 +72,8 @@
 - Loading: 사진 로드 전 세이지색 frame
 - Empty: 사진 미설정 시 TBU 표시
 - Error: 사진 오류 시 TBU, 지도 오류 시 외부 지도 버튼 안내
-- Success: 복사·공유 성공 메시지 유지, 큰 글자 선택을 `localStorage`에 저장해 재방문 시 복원
-- Disabled: 사용할 수 없는 동작은 기존 숨김/비활성 처리 유지
+- Success: 복사·공유 성공 메시지 유지, 글자 크기 단계와 조절 도구의 접힘 상태를 `localStorage`에 저장해 재방문 시 복원
+- Disabled: 기본 크기에서는 축소, 최대 크기에서는 확대 버튼을 비활성 처리
 - Offline/slow network, if applicable: 외부 지도와 공유 SDK 실패 시 직접 링크·시스템 공유 fallback
 
 ## Content voice

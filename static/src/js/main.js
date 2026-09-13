@@ -36,34 +36,89 @@ if (developerEntry) {
 }
 
 
-/* 오른쪽 고정 글자 크기 toggle. UA를 추측하지 않고 사용자가 직접 선택하며 설정을 저장한다. */
-const textSizeToggle = document.getElementById('textSizeToggle');
-const FONT_LARGE_KEY = 'wedding-font-large';
+/* 오른쪽 고정 글자 크기 조절. UA를 추측하지 않고 사용자가 직접 선택하며 설정을 저장한다. */
+const textSizeControls = document.getElementById('textSizeControls');
+const textSizeIncrease = document.getElementById('textSizeIncrease');
+const textSizeDecrease = document.getElementById('textSizeDecrease');
+const textSizeCollapse = document.getElementById('textSizeCollapse');
+const FONT_LEVEL_KEY = 'wedding-font-level';
+const LEGACY_FONT_LARGE_KEY = 'wedding-font-large';
+const FONT_CONTROLS_COLLAPSED_KEY = 'wedding-font-controls-collapsed';
+const FONT_LEVEL_MAX = 2;
+const FONT_STEP_PX = 3;
 
-function applyLargeText(enabled, persist = true) {
-  document.documentElement.classList.toggle('font-large', enabled);
+function readFontLevel() {
+  try {
+    const storedLevel = localStorage.getItem(FONT_LEVEL_KEY);
+    if (storedLevel === null) {
+      return localStorage.getItem(LEGACY_FONT_LARGE_KEY) === '1' ? 1 : 0;
+    }
 
-  if (textSizeToggle) {
-    const buttonText = enabled ? '가−' : '가+';
-    const label = enabled ? '글자 원래 크기로 보기' : '글자 크게 보기';
-    textSizeToggle.textContent = buttonText;
-    textSizeToggle.setAttribute('aria-pressed', String(enabled));
-    textSizeToggle.setAttribute('aria-label', `${buttonText}, ${label}`);
-    textSizeToggle.title = label;
+    const parsedLevel = Number.parseInt(storedLevel, 10);
+    return Number.isInteger(parsedLevel) && parsedLevel >= 0 && parsedLevel <= FONT_LEVEL_MAX
+      ? parsedLevel
+      : 0;
+  } catch (_) {
+    return 0;
+  }
+}
+
+function applyFontLevel(nextLevel, persist = true) {
+  const level = Math.max(0, Math.min(FONT_LEVEL_MAX, nextLevel));
+  document.documentElement.style.setProperty('--font-boost', `${level * FONT_STEP_PX}px`);
+
+  if (textSizeControls) textSizeControls.dataset.level = String(level);
+  if (textSizeIncrease) textSizeIncrease.disabled = level === FONT_LEVEL_MAX;
+  if (textSizeDecrease) textSizeDecrease.disabled = level === 0;
+
+  if (persist) {
+    try {
+      localStorage.setItem(FONT_LEVEL_KEY, String(level));
+      localStorage.removeItem(LEGACY_FONT_LARGE_KEY);
+    } catch (_) {
+      // 저장소가 막힌 WebView에서도 현재 화면의 조절 기능은 그대로 동작한다.
+    }
+  }
+
+  return level;
+}
+
+function setFontControlsCollapsed(collapsed, persist = true) {
+  document.documentElement.classList.toggle('font-controls-collapsed', collapsed);
+
+  if (textSizeControls) textSizeControls.dataset.collapsed = String(collapsed);
+  if (textSizeCollapse) {
+    const buttonText = collapsed ? '가' : '›';
+    const label = collapsed ? '글자 크기 조절 펼치기' : '글자 크기 조절 접기';
+    textSizeCollapse.textContent = buttonText;
+    textSizeCollapse.setAttribute('aria-expanded', String(!collapsed));
+    textSizeCollapse.setAttribute('aria-label', `${buttonText}, ${label}`);
+    textSizeCollapse.title = label;
   }
 
   if (!persist) return;
   try {
-    localStorage.setItem(FONT_LARGE_KEY, enabled ? '1' : '0');
+    localStorage.setItem(FONT_CONTROLS_COLLAPSED_KEY, collapsed ? '1' : '0');
   } catch (_) {
-    // 저장소가 막힌 WebView에서도 현재 화면의 toggle은 그대로 동작한다.
+    // 저장소가 막힌 WebView에서도 현재 화면의 접기 기능은 그대로 동작한다.
   }
 }
 
-if (textSizeToggle) {
-  applyLargeText(document.documentElement.classList.contains('font-large'), false);
-  textSizeToggle.addEventListener('click', () => {
-    applyLargeText(!document.documentElement.classList.contains('font-large'));
+if (textSizeControls && textSizeIncrease && textSizeDecrease && textSizeCollapse) {
+  let fontLevel = applyFontLevel(readFontLevel());
+  const initiallyCollapsed = document.documentElement.classList.contains('font-controls-collapsed');
+  setFontControlsCollapsed(initiallyCollapsed, false);
+
+  textSizeIncrease.addEventListener('click', () => {
+    fontLevel = applyFontLevel(fontLevel + 1);
+  });
+
+  textSizeDecrease.addEventListener('click', () => {
+    fontLevel = applyFontLevel(fontLevel - 1);
+  });
+
+  textSizeCollapse.addEventListener('click', () => {
+    setFontControlsCollapsed(textSizeControls.dataset.collapsed !== 'true');
   });
 }
 

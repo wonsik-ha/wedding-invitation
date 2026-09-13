@@ -70,10 +70,6 @@
   --sans: 'IBM Plex Sans KR', sans-serif;
 }
 
-html.font-large {
-  --font-boost: 3px;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -1296,45 +1292,82 @@ footer .share-btn:hover { background: var(--rose); border-color: var(--rose); co
 footer .share-btn:active { transform: scale(0.97); }
 
 
-/* 화면 오른쪽에 고정되는 글자 크기 toggle. 청첩장 본문과 별개로 44px touch target을 유지한다. */
-.text-size-toggle {
+/* 화면 오른쪽에 고정되는 글자 크기 조절. 청첩장 본문과 별개로 44px touch target을 유지한다. */
+.text-size-controls {
   position: fixed;
   top: 50%;
   right: max(12px, calc((100vw - 430px) / 2 + 12px));
   z-index: 90;
-  display: grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
-  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
   transform: translateY(-50%);
   border: 1px solid var(--rose-soft);
-  border-radius: 50%;
+  border-radius: 28px;
   background: rgba(248, 250, 245, 0.96);
   color: var(--rose);
   box-shadow: 0 8px 24px rgba(23, 55, 39, 0.2);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: border-radius 0.2s, padding 0.2s;
+}
+
+.text-size-controls button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--rose);
   font-family: var(--sans);
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+  transition: background 0.2s, color 0.2s, opacity 0.2s, transform 0.15s;
 }
 
-.text-size-toggle[aria-pressed='true'] {
-  border-color: var(--rose);
-  background: var(--rose);
-  color: #fff;
+.text-size-controls .text-size-action {
+  background: rgba(53, 96, 68, 0.08);
 }
 
-.text-size-toggle:active {
-  transform: translateY(-50%) scale(0.94);
+.text-size-controls button:active:not(:disabled) {
+  transform: scale(0.92);
 }
 
-.text-size-toggle:focus-visible {
+.text-size-controls button:focus-visible {
   outline: 3px solid rgba(53, 96, 68, 0.3);
-  outline-offset: 3px;
+  outline-offset: 1px;
+}
+
+.text-size-controls button:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+
+.text-size-controls .text-size-collapse {
+  font-size: 20px;
+}
+
+html.font-controls-collapsed .text-size-controls {
+  padding: 0;
+  border-radius: 50%;
+}
+
+html.font-controls-collapsed .text-size-action {
+  display: none;
+}
+
+html.font-controls-collapsed .text-size-controls .text-size-collapse {
+  width: 46px;
+  height: 46px;
+  font-size: 14px;
 }
 
 
