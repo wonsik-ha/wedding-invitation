@@ -29,15 +29,6 @@
   <!-- 본문은 Gowun Dodum, 제목은 Gowun Batang -->
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
 
-  <!-- 일부 iOS WebView는 앱 식별자가 빠질 수 있어 iOS 기기 자체를 감지해 글자 크기를 보정한다. -->
-  <script>
-    (() => {
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent)
-        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-      if (isIOS) document.documentElement.classList.add('ios-text-boost');
-    })();
-  </script>
-
   <!-- main version style. base layout과 theme를 합친 단일 파일이다.
        동작은 js/main.js가, 날짜와 사진과 profile 같은 내용은 js/config.js가 관리한다. -->
   <link rel="stylesheet" href="css/main.css" />
