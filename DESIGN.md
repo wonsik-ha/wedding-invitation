@@ -3,7 +3,7 @@
 ## Source of truth
 
 - Status: Active
-- Last refreshed: 2026-09-07
+- Last refreshed: 2026-09-13
 - Primary product surfaces: 기본 모바일 청첩장 `index.html`, 숨은 개발자 페이지 `developer.html`
 - Evidence reviewed: `static/src/main.html`, `static/src/css/main.css`, `static/src/css/developer.css`, 전달받은 야외 웨딩 사진
 
@@ -40,7 +40,7 @@
 ## Visual language
 
 - Color: forest `#173727`, sage paper `#EFF4EB`, card `#F8FAF5`, ink `#26372C`, accent green `#356044`, sunflower gold `#7A5C17`
-- Typography: 제목은 Gowun Batang, 본문은 Gowun Dodum
+- Typography: 제목은 Gowun Batang, 본문은 Gowun Dodum. iOS 카카오톡 인앱 브라우저에서는 작은 글자의 체감 크기를 맞추기 위해 main 버전에 한해 2px 보정
 - Spacing/layout rhythm: 기존 430px 모바일 폭과 넉넉한 세로 여백 유지
 - Shape/radius/elevation: 아치형 표지, 부드러운 모서리, 낮은 명도의 녹색 그림자
 - Motion: 기존 scroll reveal 유지, 과도한 신규 motion 금지
@@ -63,7 +63,7 @@
 
 ## Responsive behavior
 
-- Supported breakpoints/devices: iPhone Safari, Android Chrome, 최대 콘텐츠 폭 430px
+- Supported breakpoints/devices: iPhone Safari·카카오톡 인앱 브라우저, Android Chrome·카카오톡 인앱 브라우저, 최대 콘텐츠 폭 430px
 - Layout adaptations: 작은 화면에서도 가로 overflow 없이 1열 스크롤
 - Touch/hover differences: 핵심 동작은 touch로 완결되며 hover에 의존하지 않음
 
@@ -87,8 +87,8 @@
 - Framework/styling system: 정적 HTML/CSS/vanilla JavaScript
 - Design-token constraints: 기존 CSS 변수와 마지막 theme override만 확장
 - Performance constraints: 표지 사진은 웹용 JPEG로 최적화하고 추가 dependency를 사용하지 않음
-- Compatibility constraints: GitHub Pages, iPhone Safari, Android Chrome
-- Test/screenshot expectations: 로컬 정적 빌드, 모바일 screenshot, 가로 overflow, 사진 load, Lighthouse 대비 확인
+- Compatibility constraints: GitHub Pages, iPhone Safari, Android Chrome. iOS 카카오톡 보정은 `KAKAOTALK` User-Agent와 iOS 기기 문자열을 모두 만족할 때만 적용
+- Test/screenshot expectations: 로컬 정적 빌드, iOS·Android 카카오톡 User-Agent별 모바일 screenshot, 320–430px 가로 overflow, 사진 load, Lighthouse 대비 확인
 
 ## Open questions
 

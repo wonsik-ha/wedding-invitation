@@ -29,6 +29,13 @@
   <!-- 본문은 Gowun Dodum, 제목은 Gowun Batang -->
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
 
+  <!-- iOS 카카오톡 인앱 브라우저는 일반 Safari/Android보다 글자가 작게 보이므로 CSS에서만 보정한다. -->
+  <script>
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent) && /KAKAOTALK/i.test(navigator.userAgent)) {
+      document.documentElement.classList.add('ios-kakao');
+    }
+  </script>
+
   <!-- main version style. base layout과 theme를 합친 단일 파일이다.
        동작은 js/main.js가, 날짜와 사진과 profile 같은 내용은 js/config.js가 관리한다. -->
   <link rel="stylesheet" href="css/main.css" />
