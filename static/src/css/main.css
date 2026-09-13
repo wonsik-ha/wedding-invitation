@@ -47,7 +47,7 @@ html {
 }
 
 html.ios-kakao {
-  --font-size-boost: 2px;
+  --font-size-boost: 4px;
 }
 
 body {

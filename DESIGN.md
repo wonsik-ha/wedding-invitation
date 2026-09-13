@@ -40,7 +40,7 @@
 ## Visual language
 
 - Color: forest `#173727`, sage paper `#EFF4EB`, card `#F8FAF5`, ink `#26372C`, accent green `#356044`, sunflower gold `#7A5C17`
-- Typography: 제목은 Gowun Batang, 본문은 Gowun Dodum. iOS 카카오톡 인앱 브라우저에서는 작은 글자의 체감 크기를 맞추기 위해 main 버전에 한해 2px 보정
+- Typography: 제목은 Gowun Batang, 본문은 Gowun Dodum. iOS 카카오톡 인앱 브라우저에서는 작은 글자의 체감 크기를 맞추기 위해 main 버전에 한해 4px 보정
 - Spacing/layout rhythm: 기존 430px 모바일 폭과 넉넉한 세로 여백 유지
 - Shape/radius/elevation: 아치형 표지, 부드러운 모서리, 낮은 명도의 녹색 그림자
 - Motion: 기존 scroll reveal 유지, 과도한 신규 motion 금지
