@@ -40,7 +40,7 @@
 ## Visual language
 
 - Color: forest `#173727`, sage paper `#EFF4EB`, card `#F8FAF5`, ink `#26372C`, accent green `#356044`, sunflower gold `#7A5C17`
-- Typography: 제목은 Gowun Batang, 본문은 Gowun Dodum. iOS 카카오톡 인앱 브라우저에서는 작은 글자의 체감 크기를 맞추기 위해 main 버전에 한해 4px 보정
+- Typography: 제목은 Gowun Batang, 본문은 Gowun Dodum. iOS 카카오톡 인앱 브라우저의 작은 체감 크기를 맞추기 위해 main 버전의 iOS 전체에 6px 보정
 - Spacing/layout rhythm: 기존 430px 모바일 폭과 넉넉한 세로 여백 유지
 - Shape/radius/elevation: 아치형 표지, 부드러운 모서리, 낮은 명도의 녹색 그림자
 - Motion: 기존 scroll reveal 유지, 과도한 신규 motion 금지
@@ -87,7 +87,7 @@
 - Framework/styling system: 정적 HTML/CSS/vanilla JavaScript
 - Design-token constraints: 기존 CSS 변수와 마지막 theme override만 확장
 - Performance constraints: 표지 사진은 웹용 JPEG로 최적화하고 추가 dependency를 사용하지 않음
-- Compatibility constraints: GitHub Pages, iPhone Safari, Android Chrome. iOS 카카오톡 보정은 `KAKAOTALK` User-Agent와 iOS 기기 문자열을 모두 만족할 때만 적용
+- Compatibility constraints: GitHub Pages, iPhone Safari, Android Chrome. 일부 인앱 브라우저에서 앱 식별자가 빠지는 경우를 고려해 iOS 기기 문자열 또는 터치 기반 iPadOS를 감지하여 보정
 - Test/screenshot expectations: 로컬 정적 빌드, iOS·Android 카카오톡 User-Agent별 모바일 screenshot, 320–430px 가로 overflow, 사진 load, Lighthouse 대비 확인
 
 ## Open questions

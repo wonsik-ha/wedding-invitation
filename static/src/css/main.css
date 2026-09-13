@@ -11,7 +11,7 @@
 /* 01. 변수 & base */
 
 :root {
-  /* iOS 카카오톡에서만 2px로 바뀌며, 일반 브라우저의 기존 크기는 그대로 유지한다. */
+  /* iOS 기기에서만 6px로 바뀌며, Android의 기존 크기는 그대로 유지한다. */
   --font-size-boost: 0px;
 
   --paper: #faf7f1;
@@ -46,8 +46,8 @@ html {
   text-size-adjust: 100%;
 }
 
-html.ios-kakao {
-  --font-size-boost: 4px;
+html.ios-text-boost {
+  --font-size-boost: 6px;
 }
 
 body {
