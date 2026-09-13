@@ -341,11 +341,12 @@ if [ -e "$OUT" ]; then
   fi
   find "$OUT" -mindepth 1 -delete
 fi
-mkdir -p "$OUT/js" "$OUT/css" "$OUT/assets" "$OUT/photos"
+mkdir -p "$OUT/js" "$OUT/css" "$OUT/assets" "$OUT/fonts" "$OUT/photos"
 printf 'build.sh 산출물입니다. 이 파일이 있어야 다음 build가 이 directory를 비웁니다.\n' > "$OUT/$STAMP"
 cp "$SRC/css/main.css" "$SRC/css/developer.css" "$OUT/css/"
 cp "$SRC/js/config.js" "$SRC/js/private.js" "$SRC/js/main.js" "$SRC/js/developer.js" "$OUT/js/"
 cp -R "$SRC/assets/." "$OUT/assets/"
+cp -R "$SRC/fonts/." "$OUT/fonts/"
 # 설정에서 실제로 선택한 사진만 옮깁니다. demo 파일이 배포물에 따라 들어가지 않게 합니다.
 copy_photo() {
   local photo="${1:-}"

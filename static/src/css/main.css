@@ -8,6 +8,43 @@
 /* [A] base layout */
 
 
+/* 00. same-origin web fonts
+   고정된 WOFF2를 GitHub Pages에서 직접 제공해 Kakao WebView와 일반 브라우저가
+   동일한 글꼴 파일을 사용하도록 한다. */
+
+@font-face {
+  font-family: 'Gowun Dodum';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/gowun-dodum-korean-400-v12.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Gowun Batang';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/gowun-batang-korean-400-v12.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Gowun Batang';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/gowun-batang-korean-700-v12.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/jetbrains-mono-latin-400-v24.woff2') format('woff2');
+}
+
+
 /* 01. 변수 & base */
 
 :root {

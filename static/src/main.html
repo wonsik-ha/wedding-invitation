@@ -24,10 +24,9 @@
   <meta property="og:image:alt" content="{{GROOM_NAME}} ❤️ {{BRIDE_NAME}} 결혼합니다 🎉" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- 본문은 Gowun Dodum, 제목은 Gowun Batang -->
-  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <!-- 같은 origin에서 고정 버전 폰트를 먼저 받아 인앱 브라우저의 fallback 차이를 줄인다. -->
+  <link rel="preload" href="fonts/gowun-dodum-korean-400-v12.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/gowun-batang-korean-400-v12.woff2" as="font" type="font/woff2" crossorigin />
 
   <!-- main version style. base layout과 theme를 합친 단일 파일이다.
        동작은 js/main.js가, 날짜와 사진과 profile 같은 내용은 js/config.js가 관리한다. -->
