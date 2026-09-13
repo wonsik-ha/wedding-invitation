@@ -27,7 +27,7 @@
 
 ## Information architecture
 
-- Primary navigation: 단일 세로 스크롤
+- Primary navigation: 각 청첩장은 단일 세로 스크롤이며, 양쪽 footer의 전환 버튼으로 일반·개발자 청첩장을 오감
 - Core routes/screens: `/`, `/developer.html`
 - Content hierarchy: 표지 사진과 이름 → 초대 문구 → 가족관계 → 예식 정보 → 교통 → 사진 → 계좌 → 공유
 
@@ -49,14 +49,14 @@
 ## Components
 
 - Existing components to reuse: `.paper`, `.cover`, `.arch-photo`, `.venue-card`, `.share-btn`
-- New/changed components: 기본 청첩장 색상 token, 녹색 placeholder 상태, 3열 지도·주소 아이콘 메뉴, 사진 캐러셀, 화면 오른쪽 고정 글자 크기 조절 도구
+- New/changed components: 기본 청첩장 색상 token, 녹색 placeholder 상태, 3열 지도·주소 아이콘 메뉴, 사진 캐러셀, 화면 오른쪽 고정 글자 크기 조절 도구, 화면별 분위기에 맞춘 footer 청첩장 전환 버튼
 - Variants and states: 사진 로딩, TBU, 좌우 스와이프·화살표·현재 위치 dot가 있는 캐러셀, 지도 fallback, 공유 fallback, 기본·1단계(+4px)·2단계(+8px)·3단계(+12px) 확대와 펼침·접힘 상태
 - Token/component ownership: 기본 청첩장 token은 `static/src/css/main.css`의 마지막 `:root` override가 소유
 
 ## Accessibility
 
 - Target standard: WCAG 2.1 AA 대비, Lighthouse Accessibility 100 유지
-- Keyboard/focus behavior: 기존 button/link focus와 browser 확대 허용 유지, 확대·축소·접기 버튼은 각각 44px 이상의 touch target과 명확한 접근성 이름·비활성 상태 제공
+- Keyboard/focus behavior: 기존 button/link focus와 browser 확대 허용 유지, 확대·축소·접기 및 청첩장 전환은 44px 이상의 touch target과 명확한 focus 표시 제공
 - Contrast/readability: 긴 본문은 옅은 배경과 짙은 글자, 포인트색도 4.5:1 이상을 목표로 함
 - Screen-reader semantics: 기존 `main`, section, button label 유지
 - Reduced motion and sensory considerations: 기존 reduced-motion 대응을 보존

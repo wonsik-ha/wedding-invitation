@@ -1236,42 +1236,6 @@ footer .thanks-line {
   color: var(--soft);
 }
 
-/* version 안내 문구. 개발자와 terminal version link 위에 오는 설명이다. */
-footer .version-note {
-  margin: 24px auto 0;
-  max-width: 330px;
-  font-size: calc(13.5px + var(--font-boost));
-  line-height: 1.85;
-  color: var(--faint);
-  word-break: keep-all;
-}
-
-/* version 전환 link. 반반 가로 배치로 작게 둔다. */
-footer .version-links {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-footer .version-link {
-  flex: 1;
-  padding: 9px 8px;
-  text-decoration: none;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: calc(12px + var(--font-boost));
-  color: var(--soft);
-  white-space: nowrap;
-  transition: border-color 0.25s, color 0.25s;
-}
-
-footer .version-link:hover {
-  border-color: var(--leaf);
-  color: var(--leaf);
-}
-
 /* 청첩장 공유 button. page 톤에 맞춘 부드러운 outline. */
 footer .share-btn {
   display: block;
@@ -1290,6 +1254,74 @@ footer .share-btn {
 
 footer .share-btn:hover { background: var(--rose); border-color: var(--rose); color: #fff; }
 footer .share-btn:active { transform: scale(0.97); }
+
+/* 일반 청첩장 톤을 유지하면서 개발자 화면의 존재를 은근하게 드러내는 하단 전환 버튼. */
+footer .invitation-switch {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 62px;
+  margin-top: 12px;
+  padding: 10px 14px 10px 10px;
+  border: 1px solid #c5d5c1;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--ink);
+  text-align: left;
+  text-decoration: none;
+  box-shadow: 0 8px 20px -18px rgba(23, 55, 39, 0.7);
+  transition: border-color 0.25s, background 0.25s, transform 0.15s;
+}
+
+footer .invitation-switch:hover {
+  border-color: var(--leaf);
+  background: var(--card);
+}
+
+footer .invitation-switch:active { transform: scale(0.98); }
+
+footer .invitation-switch:focus-visible {
+  outline: 3px solid rgba(53, 96, 68, 0.3);
+  outline-offset: 3px;
+}
+
+footer .switch-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #e3eee0;
+  font-family: monospace;
+  font-size: calc(13px + var(--font-boost));
+  color: var(--leaf);
+}
+
+footer .switch-copy {
+  min-width: 0;
+  line-height: 1.45;
+}
+
+footer .switch-copy b {
+  display: block;
+  font-family: var(--serif);
+  font-size: calc(15px + var(--font-boost));
+  font-weight: 700;
+  color: var(--ink-bright);
+}
+
+footer .switch-copy small {
+  display: block;
+  margin-top: 1px;
+  font-size: calc(11.5px + var(--font-boost));
+  color: var(--faint);
+}
+
+footer .switch-arrow {
+  font-size: calc(18px + var(--font-boost));
+  color: var(--leaf);
+}
 
 
 /* 화면 오른쪽에 고정되는 글자 크기 조절. 청첩장 본문과 별개로 44px touch target을 유지한다. */
