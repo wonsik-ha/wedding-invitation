@@ -1283,6 +1283,18 @@ footer .invitation-switch img {
   width: 40px;
   height: 40px;
   object-fit: contain;
+  transform-origin: 50% 85%;
+  animation: bear-curiosity 5.2s ease-in-out 1.2s infinite;
+}
+
+/* 대부분은 가만히 있다가 짧게 튀어 오르고 고개를 갸웃해 숨은 화면을 암시한다. */
+@keyframes bear-curiosity {
+  0%, 68%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  73% { transform: translateY(-3px) rotate(-7deg) scale(1.06); }
+  78% { transform: translateY(-5px) rotate(7deg) scale(1.1); }
+  83% { transform: translateY(-3px) rotate(-5deg) scale(1.07); }
+  88% { transform: translateY(-1px) rotate(3deg) scale(1.03); }
+  93% { transform: translateY(0) rotate(0deg) scale(1); }
 }
 
 

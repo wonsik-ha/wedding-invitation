@@ -43,7 +43,7 @@
 - Typography: 제목은 Gowun Batang, 본문은 Gowun Dodum이며 고정 버전 WOFF2를 GitHub Pages의 same-origin 자산으로 제공합니다.
 - Spacing/layout rhythm: 기존 430px 모바일 폭과 넉넉한 세로 여백 유지
 - Shape/radius/elevation: 아치형 표지, 부드러운 모서리, 낮은 명도의 녹색 그림자
-- Motion: 기존 scroll reveal 유지, 과도한 신규 motion 금지
+- Motion: 기존 scroll reveal을 유지하고, 청첩장 전환 곰은 대부분 정지한 채 약 5초마다 한 번만 짧게 튀어 오르며 고개를 갸웃해 호기심을 유도합니다. 과도한 반복 motion은 금지합니다.
 - Imagery/iconography: 전달받은 실제 웨딩 사진을 메인 표지와 공유 미리보기에 사용하며, 지도 동작은 네이버지도·카카오맵 공식 아이콘과 짧은 이름을 함께 표시하고, 청첩장 전환에는 동일한 투명 배경 실사 곰 이미지를 사용
 
 ## Components
@@ -59,7 +59,7 @@
 - Keyboard/focus behavior: 기존 button/link focus와 browser 확대 허용 유지, 확대·축소·접기 및 청첩장 전환은 44px 이상의 touch target과 명확한 focus 표시 제공
 - Contrast/readability: 긴 본문은 옅은 배경과 짙은 글자, 포인트색도 4.5:1 이상을 목표로 함
 - Screen-reader semantics: 기존 `main`, section, button label 유지
-- Reduced motion and sensory considerations: 기존 reduced-motion 대응을 보존
+- Reduced motion and sensory considerations: 기존 reduced-motion 대응을 보존하며, `prefers-reduced-motion`에서는 곰의 클릭 유도 motion도 정지합니다.
 
 ## Responsive behavior
 
