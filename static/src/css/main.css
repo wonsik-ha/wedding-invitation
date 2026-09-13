@@ -48,6 +48,8 @@
 /* 01. 변수 & base */
 
 :root {
+  --font-boost: 0px;
+
   --paper: #faf7f1;
   --paper-deep: #f1ece2;
   --card: #ffffff;
@@ -66,6 +68,10 @@
 
   --serif: 'Gowun Batang', serif;
   --sans: 'IBM Plex Sans KR', sans-serif;
+}
+
+html.font-large {
+  --font-boost: 3px;
 }
 
 * {
@@ -140,7 +146,7 @@ section {
 }
 
 .cover .small-cap {
-  font-size: 13px;
+  font-size: calc(13px + var(--font-boost));
   letter-spacing: 0.45em;
   text-indent: 0.45em;       /* letter-spacing 마지막 글자 보정 */
   color: var(--gold);
@@ -153,7 +159,7 @@ section {
   margin-top: 26px;
   font-family: var(--serif);
   font-weight: 400;
-  font-size: 36px;
+  font-size: calc(36px + var(--font-boost));
   letter-spacing: 0.14em;
   color: var(--ink-bright);
   line-height: 1.6;
@@ -162,20 +168,20 @@ section {
 .cover h1 .and {
   display: block;
   margin: 2px 0;
-  font-size: 17px;
+  font-size: calc(17px + var(--font-boost));
   color: var(--rose);
 }
 
 .cover .cover-date {
   margin-top: 24px;
   font-family: var(--serif);
-  font-size: 17.5px;
+  font-size: calc(17.5px + var(--font-boost));
   color: var(--ink);
 }
 
 .cover .cover-venue {
   margin-top: 6px;
-  font-size: 15.5px;
+  font-size: calc(15.5px + var(--font-boost));
   color: var(--soft);
 }
 
@@ -212,7 +218,7 @@ section {
 .label {
   margin-bottom: 14px;
   text-align: center;
-  font-size: 13.5px;
+  font-size: calc(13.5px + var(--font-boost));
   letter-spacing: 0.4em;
   text-indent: 0.4em;
   color: var(--gold);
@@ -222,7 +228,7 @@ section {
   margin-bottom: 34px;
   text-align: center;
   font-family: var(--serif);
-  font-size: 24px;
+  font-size: calc(24px + var(--font-boost));
   letter-spacing: 0.1em;
   color: var(--ink-bright);
 }
@@ -235,7 +241,7 @@ section {
   gap: 14px;
   padding: 0 26px;
   color: var(--rose-soft);
-  font-size: 15px;
+  font-size: calc(15px + var(--font-boost));
 }
 
 .divider::before,
@@ -255,7 +261,7 @@ section {
 
 .greeting {
   font-family: var(--serif);
-  font-size: 16.5px;
+  font-size: calc(16.5px + var(--font-boost));
   line-height: 2.15;
   text-align: center;
   word-break: keep-all;
@@ -267,7 +273,7 @@ section {
 }
 
 .greeting .soft {
-  font-size: 15.5px;
+  font-size: calc(15.5px + var(--font-boost));
   color: var(--soft);
 }
 
@@ -276,7 +282,7 @@ section {
   margin-top: 46px;
   text-align: center;
   font-family: var(--serif);
-  font-size: 18px;
+  font-size: calc(18px + var(--font-boost));
   line-height: 2.5;
   color: var(--ink);
 }
@@ -287,13 +293,13 @@ section {
 
 .family .rel {
   margin: 0 6px;
-  font-size: 14.5px;
+  font-size: calc(14.5px + var(--font-boost));
   color: var(--faint);
 }
 
 .family b {
   font-weight: 700;
-  font-size: 19px;
+  font-size: calc(19px + var(--font-boost));
   color: var(--ink-bright);
 }
 
@@ -301,7 +307,7 @@ section {
   display: block;
   margin-top: -8px;
   font-family: var(--sans);
-  font-size: 13px;
+  font-size: calc(13px + var(--font-boost));
   letter-spacing: 0.06em;
   color: var(--faint);
 }
@@ -351,7 +357,7 @@ section {
 .gallery-hint {
   margin-top: 12px;
   text-align: center;
-  font-size: 13.5px;
+  font-size: calc(13.5px + var(--font-boost));
   letter-spacing: 0.16em;
   color: var(--faint);
 }
@@ -375,7 +381,7 @@ section {
   border: 1px solid var(--line);
   border-radius: 50%;
   font-family: var(--serif);
-  font-size: 24px;
+  font-size: calc(24px + var(--font-boost));
   line-height: 1;
   color: var(--ink);
   cursor: pointer;
@@ -447,17 +453,17 @@ section {
 }
 
 .ph-placeholder .ico {
-  font-size: 26px;
+  font-size: calc(26px + var(--font-boost));
   opacity: 0.6;
 }
 
 .ph-placeholder .fn {
-  font-size: 12px;
+  font-size: calc(12px + var(--font-boost));
   color: var(--soft);
 }
 
 .ph-placeholder .hint {
-  font-size: 11px;
+  font-size: calc(11px + var(--font-boost));
   color: var(--faint);
 }
 
@@ -489,7 +495,7 @@ section {
   bottom: 32px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 13px;
+  font-size: calc(13px + var(--font-boost));
   color: #d8cfc2;
 }
 
@@ -503,7 +509,7 @@ section {
   border: 1.5px solid rgba(255, 255, 255, 0.7);
   border-radius: 50%;
   color: #fff;
-  font-size: 20px;
+  font-size: calc(20px + var(--font-boost));
   cursor: pointer;
   box-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
   -webkit-backdrop-filter: blur(2px);
@@ -516,7 +522,7 @@ section {
 
 /* 닫기는 상단에, 이전과 다음 화살표는 사진 좌우 끝에 약간 투명하게 둔다.
    닫기(✕)는 너무 커 보이지 않게 화살표보다 작게(34px) 줄였다. */
-.lightbox .lb-close { top: 14px; right: 14px; width: 34px; height: 34px; font-size: 16px; }
+.lightbox .lb-close { top: 14px; right: 14px; width: 34px; height: 34px; font-size: calc(16px + var(--font-boost)); }
 .lightbox .lb-prev, .lightbox .lb-next { top: 50%; bottom: auto; transform: translateY(-50%); opacity: 0.55; }
 .lightbox .lb-prev  { left: 10px; }
 .lightbox .lb-next  { right: 10px; }
@@ -533,7 +539,7 @@ section {
 .when-date {
   text-align: center;
   font-family: var(--serif);
-  font-size: 22px;
+  font-size: calc(22px + var(--font-boost));
   letter-spacing: 0.08em;
   color: var(--ink-bright);
 }
@@ -541,7 +547,7 @@ section {
 .when-time {
   margin-top: 8px;
   text-align: center;
-  font-size: 15px;
+  font-size: calc(15px + var(--font-boost));
   color: var(--soft);
 }
 
@@ -566,13 +572,13 @@ section {
   display: block;
   font-family: var(--serif);
   font-weight: 700;
-  font-size: 27px;
+  font-size: calc(27px + var(--font-boost));
   color: var(--rose);
   font-variant-numeric: tabular-nums;
 }
 
 .dd-cell span {
-  font-size: 12px;
+  font-size: calc(12px + var(--font-boost));
   letter-spacing: 0.18em;
   color: var(--faint);
 }
@@ -581,7 +587,7 @@ section {
   margin-top: 22px;
   text-align: center;
   font-family: var(--serif);
-  font-size: 16.5px;
+  font-size: calc(16.5px + var(--font-boost));
   color: var(--soft);
 }
 
@@ -603,7 +609,7 @@ section {
   margin-bottom: 18px;
   text-align: center;
   font-family: var(--serif);
-  font-size: 16px;
+  font-size: calc(16px + var(--font-boost));
   letter-spacing: 0.3em;
   text-indent: 0.3em;
   color: var(--ink);
@@ -616,7 +622,7 @@ section {
 
 .cal th {
   padding: 6px 0;
-  font-size: 12px;
+  font-size: calc(12px + var(--font-boost));
   font-weight: 400;
   letter-spacing: 0.1em;
   color: var(--faint);
@@ -638,7 +644,7 @@ section {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  font-size: 15px;
+  font-size: calc(15px + var(--font-boost));
   color: var(--soft);
 }
 
@@ -667,25 +673,25 @@ section {
 
 .venue-card .vc-name {
   font-family: var(--serif);
-  font-size: 24px;
+  font-size: calc(24px + var(--font-boost));
   color: var(--ink-bright);
 }
 
 .venue-card .vc-name small {
-  font-size: 16px;
+  font-size: calc(16px + var(--font-boost));
   color: var(--soft);
 }
 
 .venue-card .vc-addr {
   margin-top: 10px;
-  font-size: 17px;
+  font-size: calc(17px + var(--font-boost));
   font-weight: 400;
   color: var(--ink);
 }
 
 .venue-card .vc-sub {
   margin-top: 6px;
-  font-size: 14.5px;
+  font-size: calc(14.5px + var(--font-boost));
   color: var(--soft);
 }
 
@@ -762,7 +768,7 @@ section {
 
 .map-action__label {
   display: block;
-  font-size: 12.5px;
+  font-size: calc(12.5px + var(--font-boost));
   line-height: 1.4;
   color: var(--soft);
 }
@@ -800,7 +806,7 @@ section {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 14px;
-  font-size: 15.5px;
+  font-size: calc(15.5px + var(--font-boost));
   line-height: 1.85;
   color: var(--soft);
   text-align: center;
@@ -809,7 +815,7 @@ section {
 
 .parking-note .pn-title {
   font-family: var(--serif);
-  font-size: 15px;
+  font-size: calc(15px + var(--font-boost));
   color: var(--ink);
   margin-bottom: 8px;
 }
@@ -822,7 +828,7 @@ section {
 .parking-note .pn-tip {
   display: inline-block;
   margin-top: 6px;
-  font-size: 13px;
+  font-size: calc(13px + var(--font-boost));
   color: var(--rose);
 }
 
@@ -834,7 +840,7 @@ section {
   border: 1px solid var(--line);
   border-radius: 12px;
   font-family: var(--sans);
-  font-size: 15px;
+  font-size: calc(15px + var(--font-boost));
   text-align: center;
   text-decoration: none;
   color: var(--ink);
@@ -878,7 +884,7 @@ section {
 
 .map-embed.is-fallback .map-note {
   display: block;
-  font-size: 14.5px;
+  font-size: calc(14.5px + var(--font-boost));
   color: var(--soft);
 }
 
@@ -888,7 +894,7 @@ section {
 .gift-note {
   margin-bottom: 22px;
   text-align: center;
-  font-size: 16px;
+  font-size: calc(16px + var(--font-boost));
   line-height: 2;
   color: var(--soft);
 }
@@ -911,7 +917,7 @@ details.gift summary {
   padding: 17px 18px;
   list-style: none;
   cursor: pointer;
-  font-size: 15.5px;
+  font-size: calc(15.5px + var(--font-boost));
   font-weight: 400;
   color: var(--ink);
 }
@@ -939,7 +945,7 @@ details.gift .acc-list {
   align-items: center;
   gap: 8px;
   padding: 15px 18px;
-  font-size: 15px;
+  font-size: calc(15px + var(--font-boost));
 }
 
 .acc + .acc {
@@ -954,7 +960,7 @@ details.gift .acc-list {
 }
 
 .acc .no {
-  font-size: 14px;
+  font-size: calc(14px + var(--font-boost));
   color: var(--soft);
 }
 
@@ -965,7 +971,7 @@ details.gift .acc-list {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 8px;
-  font-size: 13px;
+  font-size: calc(13px + var(--font-boost));
   color: var(--soft);
   cursor: pointer;
   transition: all 0.25s;
@@ -988,7 +994,7 @@ details.gift .acc-list {
 
 .acc-note {
   padding: 14px 18px;
-  font-size: 14px;
+  font-size: calc(14px + var(--font-boost));
   color: var(--soft);
   text-align: center;
 }
@@ -1010,7 +1016,7 @@ details.gift .acc-list {
   border: 1px solid var(--line);
   border-radius: 12px;
   font-family: inherit;
-  font-size: 16px;
+  font-size: calc(16px + var(--font-boost));
   color: var(--ink);
   text-align: center;
 }
@@ -1024,7 +1030,7 @@ details.gift .acc-list {
 
 .input-hint {
   margin: 0 0 14px;
-  font-size: 12.5px;
+  font-size: calc(12.5px + var(--font-boost));
   color: var(--soft);
   text-align: center;
 }
@@ -1032,7 +1038,7 @@ details.gift .acc-list {
 /* 축하 한마디 글자수 counter (config.js가 입력창 뒤에 삽입) */
 .bless-count {
   margin: 0 0 8px;
-  font-size: 12.5px;
+  font-size: calc(12.5px + var(--font-boost));
   letter-spacing: 0.02em;
   color: var(--soft);
   text-align: center;
@@ -1054,7 +1060,7 @@ details.gift .acc-list {
   border: 1px solid var(--rose-soft);
   border-radius: 99px;
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: calc(17px + var(--font-boost));
   color: var(--rose);
   cursor: pointer;
   box-shadow: 0 12px 28px -16px rgba(189, 93, 124, 0.4);
@@ -1078,7 +1084,7 @@ details.gift .acc-list {
 .bless-msg {
   min-height: 24px;
   margin-top: 16px;
-  font-size: 15px;
+  font-size: calc(15px + var(--font-boost));
   color: var(--leaf);
   opacity: 0;
   transition: opacity 0.6s;
@@ -1096,7 +1102,7 @@ details.gift .acc-list {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 14px;
-  font-size: 15px;
+  font-size: calc(15px + var(--font-boost));
   line-height: 2.2;
 }
 
@@ -1147,7 +1153,7 @@ details.gift .acc-list {
   border: 1px dashed var(--rose-soft);
   border-radius: 10px;
   font-family: inherit;
-  font-size: 13.5px;
+  font-size: calc(13.5px + var(--font-boost));
   color: var(--rose);
   cursor: pointer;
   transition: background 0.25s, border-color 0.25s;
@@ -1171,7 +1177,7 @@ details.gift .acc-list {
   padding-top: 12px;
   border-top: 1px dashed var(--line-soft);
   font-family: var(--serif);
-  font-size: 15.5px;
+  font-size: calc(15.5px + var(--font-boost));
   color: var(--ink);
 }
 
@@ -1185,7 +1191,7 @@ details.gift .acc-list {
   position: fixed;
   z-index: 110;
   pointer-events: none;
-  font-size: 16px;
+  font-size: calc(16px + var(--font-boost));
   animation: fall linear forwards;
 }
 
@@ -1208,7 +1214,7 @@ details.gift .acc-list {
   border: 1px solid #cbdcc8;
   border-radius: 14px;
   font-family: var(--serif);
-  font-size: 15px;
+  font-size: calc(15px + var(--font-boost));
   color: var(--leaf);
 }
 
@@ -1223,14 +1229,14 @@ footer {
   padding: 40px 26px 60px;
   border-top: 1px solid var(--line);
   text-align: center;
-  font-size: 14px;
+  font-size: calc(14px + var(--font-boost));
   line-height: 2.4;
   color: var(--faint);
 }
 
 footer .thanks-line {
   font-family: var(--serif);
-  font-size: 16px;
+  font-size: calc(16px + var(--font-boost));
   color: var(--soft);
 }
 
@@ -1238,7 +1244,7 @@ footer .thanks-line {
 footer .version-note {
   margin: 24px auto 0;
   max-width: 330px;
-  font-size: 13.5px;
+  font-size: calc(13.5px + var(--font-boost));
   line-height: 1.85;
   color: var(--faint);
   word-break: keep-all;
@@ -1259,7 +1265,7 @@ footer .version-link {
   border: 1px solid var(--line);
   border-radius: 9px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: calc(12px + var(--font-boost));
   color: var(--soft);
   white-space: nowrap;
   transition: border-color 0.25s, color 0.25s;
@@ -1281,13 +1287,55 @@ footer .share-btn {
   border: 1px solid var(--rose-soft);
   border-radius: 12px;
   font-family: var(--sans);
-  font-size: 15px;
+  font-size: calc(15px + var(--font-boost));
   cursor: pointer;
   transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.15s;
 }
 
 footer .share-btn:hover { background: var(--rose); border-color: var(--rose); color: #fff; }
 footer .share-btn:active { transform: scale(0.97); }
+
+
+/* 화면 오른쪽에 고정되는 글자 크기 toggle. 청첩장 본문과 별개로 44px touch target을 유지한다. */
+.text-size-toggle {
+  position: fixed;
+  top: 50%;
+  right: max(12px, calc((100vw - 430px) / 2 + 12px));
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  transform: translateY(-50%);
+  border: 1px solid var(--rose-soft);
+  border-radius: 50%;
+  background: rgba(248, 250, 245, 0.96);
+  color: var(--rose);
+  box-shadow: 0 8px 24px rgba(23, 55, 39, 0.2);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.text-size-toggle[aria-pressed='true'] {
+  border-color: var(--rose);
+  background: var(--rose);
+  color: #fff;
+}
+
+.text-size-toggle:active {
+  transform: translateY(-50%) scale(0.94);
+}
+
+.text-size-toggle:focus-visible {
+  outline: 3px solid rgba(53, 96, 68, 0.3);
+  outline-offset: 3px;
+}
 
 
 /* 12. 반응형 & 접근성 */
@@ -1298,7 +1346,7 @@ footer .share-btn:active { transform: scale(0.97); }
   }
 
   .cover h1 {
-    font-size: 36px;
+    font-size: calc(36px + var(--font-boost));
   }
 }
 
@@ -1363,7 +1411,7 @@ body::before { display: none; }
 }
 
 .cover .small-cap {
-  font-size: 12px;           /* invitation 문구를 작게 */
+  font-size: calc(12px + var(--font-boost));           /* invitation 문구를 작게 */
   letter-spacing: 0.5em;
   text-indent: 0.5em;
   color: var(--gold);
@@ -1372,7 +1420,7 @@ body::before { display: none; }
 .cover h1 {
   margin-top: 26px;
   font-family: var(--display);
-  font-size: 40px;           /* 표지 제목을 크게 */
+  font-size: calc(40px + var(--font-boost));           /* 표지 제목을 크게 */
   font-weight: 400;
   letter-spacing: 0.18em;
   text-indent: 0.18em;
@@ -1382,7 +1430,7 @@ body::before { display: none; }
 .cover h1 .and {
   display: block;
   margin: 8px 0;
-  font-size: 24px;
+  font-size: calc(24px + var(--font-boost));
   color: var(--rose);
   text-indent: 0;
 }
@@ -1411,14 +1459,14 @@ body::before { display: none; }
 .label-title {
   margin-bottom: 30px;
   font-family: var(--display);
-  font-size: 23px;           /* section 타이틀을 크게 */
+  font-size: calc(23px + var(--font-boost));           /* section 타이틀을 크게 */
   letter-spacing: 0.12em;
   text-indent: 0.12em;
 }
 
 .divider {
   color: var(--rose);
-  font-size: 12px;
+  font-size: calc(12px + var(--font-boost));
   opacity: 0.7;
 }
 
@@ -1431,7 +1479,7 @@ body::before { display: none; }
 /* 인사말: 본문은 부드러운 serif를 유지 */
 
 .greeting {
-  font-size: 18.5px;
+  font-size: calc(18.5px + var(--font-boost));
   line-height: 2.15;
 }
 
@@ -1485,7 +1533,7 @@ body::before { display: none; }
   place-items: center;
   background: linear-gradient(150deg, #e9f0e5, #dce8d7);
   font-family: var(--display);
-  font-size: 44px;
+  font-size: calc(44px + var(--font-boost));
   color: var(--rose);
 }
 
@@ -1497,7 +1545,7 @@ body::before { display: none; }
 /* 역할과 이름을 한 줄로 붙인다. 역할은 회색으로 작게, 이름은 진하게 크게. */
 .pf-role {
   display: inline;
-  font-size: 14px;
+  font-size: calc(14px + var(--font-boost));
   font-weight: 400;   /* Gowun Dodum은 400만 있어 600/700은 가짜 bold로 뭉툭해짐 → 400 유지 */
   letter-spacing: 0.02em;
   color: var(--soft);
@@ -1507,7 +1555,7 @@ body::before { display: none; }
   display: inline;
   margin-left: 7px;
   font-family: var(--display);
-  font-size: 25px;
+  font-size: calc(25px + var(--font-boost));
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--ink-bright);
@@ -1516,7 +1564,7 @@ body::before { display: none; }
 .pf-line {
   margin-top: 6px;
   font-family: var(--serif);
-  font-size: 15px;
+  font-size: calc(15px + var(--font-boost));
   line-height: 1.7;
   color: var(--soft);
   word-break: keep-all;
@@ -1535,13 +1583,13 @@ body::before { display: none; }
   align-items: baseline;
   justify-content: center;   /* 행 내용(키+값)을 가운데로 */
   gap: 6px;                  /* 키와 값 사이 간격 */
-  font-size: 16.5px;
+  font-size: calc(16.5px + var(--font-boost));
   line-height: 1.6;
 }
 
 .pf-k {
   flex: none;                /* 키는 글자폭만큼만. 가운데 정렬했을 때 간격이 고르다. */
-  font-size: 14.5px;
+  font-size: calc(14.5px + var(--font-boost));
   font-weight: 400;   /* 가짜 bold를 피한다. 키와 값 구분은 두께 대신 색으로 준다. */
   letter-spacing: 0.04em;
   color: var(--soft);
@@ -1563,7 +1611,7 @@ body::before { display: none; }
   padding: 4px 11px;
   border-radius: 99px;
   background: #e3eee0;
-  font-size: 12.5px;
+  font-size: calc(12.5px + var(--font-boost));
   color: var(--rose);
 }
 
@@ -1574,8 +1622,8 @@ body::before { display: none; }
 
 @media (max-width: 360px) {
   .profile { gap: 10px; }
-  .pf-name { font-size: 23px; }
-  .pf-photo.is-empty { font-size: 36px; }
+  .pf-name { font-size: calc(23px + var(--font-boost)); }
+  .pf-photo.is-empty { font-size: calc(36px + var(--font-boost)); }
 }
 
 
@@ -1589,7 +1637,7 @@ body::before { display: none; }
 .when-time {
   margin-top: 10px;
   font-family: var(--display);
-  font-size: 27px;
+  font-size: calc(27px + var(--font-boost));
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--rose);
@@ -1613,7 +1661,7 @@ body::before { display: none; }
 /* 축하 button. 맑은 화이트 알약에 rose를 얹고 크림 gradient은 뺐다. */
 .bless-btn {
   padding: 13px 30px;        /* '한번 더 축하하기' button을 작게 */
-  font-size: 16px;
+  font-size: calc(16px + var(--font-boost));
   background: #ffffff;
   border-color: var(--rose-soft);
   color: var(--rose);

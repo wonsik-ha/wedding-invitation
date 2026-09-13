@@ -28,6 +28,14 @@
   <link rel="preload" href="fonts/gowun-dodum-korean-400-v12.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="fonts/gowun-batang-korean-400-v12.woff2" as="font" type="font/woff2" crossorigin />
 
+  <script>
+    try {
+      if (localStorage.getItem('wedding-font-large') === '1') {
+        document.documentElement.classList.add('font-large');
+      }
+    } catch (_) {}
+  </script>
+
   <!-- main version style. base layout과 theme를 합친 단일 파일이다.
        동작은 js/main.js가, 날짜와 사진과 profile 같은 내용은 js/config.js가 관리한다. -->
   <link rel="stylesheet" href="css/main.css" />
@@ -289,6 +297,15 @@
     <button class="share-btn" id="shareBtn" type="button">📤 청첩장 공유하기</button>
   </footer>
 </main>
+
+<button
+  class="text-size-toggle"
+  id="textSizeToggle"
+  type="button"
+  aria-label="가+, 글자 크게 보기"
+  aria-pressed="false"
+  title="글자 크게 보기"
+>가+</button>
 
 
 <!-- lightbox -->

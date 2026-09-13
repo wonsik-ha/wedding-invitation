@@ -36,6 +36,38 @@ if (developerEntry) {
 }
 
 
+/* 오른쪽 고정 글자 크기 toggle. UA를 추측하지 않고 사용자가 직접 선택하며 설정을 저장한다. */
+const textSizeToggle = document.getElementById('textSizeToggle');
+const FONT_LARGE_KEY = 'wedding-font-large';
+
+function applyLargeText(enabled, persist = true) {
+  document.documentElement.classList.toggle('font-large', enabled);
+
+  if (textSizeToggle) {
+    const buttonText = enabled ? '가−' : '가+';
+    const label = enabled ? '글자 원래 크기로 보기' : '글자 크게 보기';
+    textSizeToggle.textContent = buttonText;
+    textSizeToggle.setAttribute('aria-pressed', String(enabled));
+    textSizeToggle.setAttribute('aria-label', `${buttonText}, ${label}`);
+    textSizeToggle.title = label;
+  }
+
+  if (!persist) return;
+  try {
+    localStorage.setItem(FONT_LARGE_KEY, enabled ? '1' : '0');
+  } catch (_) {
+    // 저장소가 막힌 WebView에서도 현재 화면의 toggle은 그대로 동작한다.
+  }
+}
+
+if (textSizeToggle) {
+  applyLargeText(document.documentElement.classList.contains('font-large'), false);
+  textSizeToggle.addEventListener('click', () => {
+    applyLargeText(!document.documentElement.classList.contains('font-large'));
+  });
+}
+
+
 /* 01. scroll reveal */
 
 const revealObserver = new IntersectionObserver(
