@@ -131,9 +131,17 @@ function isWeddingDeployed() {
    사진은 photos/ 에 있고 그 base가 window.__PHOTOS__ 로 주입된다. */
 function photoSrc(src) {
   if (!src) return src;
-  if (/^(https?:)?\/\//.test(src) || src.charAt(0) === '/') return src;   // 이미 절대 경로면 그대로
+  if (/^(https?:)?\/\//.test(src)) return src;   // 외부 URL은 서명 query를 훼손하지 않는다.
   var base = (typeof window !== 'undefined' && window.__PHOTOS__) || '';
-  return base + src;
+  var resolved = src.charAt(0) === '/' ? src : base + src;
+  var version = (typeof window !== 'undefined' && window.__ASSET_VERSION__) || '';
+  if (!version) return resolved;
+
+  // 카카오톡 인앱 브라우저가 과거의 404/빈 응답을 잡고 있어도 배포마다 새 URL로 요청하게 한다.
+  var hashAt = resolved.indexOf('#');
+  var hash = hashAt >= 0 ? resolved.slice(hashAt) : '';
+  var path = hashAt >= 0 ? resolved.slice(0, hashAt) : resolved;
+  return path + (path.indexOf('?') >= 0 ? '&' : '?') + 'v=' + encodeURIComponent(version) + hash;
 }
 
 /* 청첩장 자산(css, js, assets)의 base 경로. window.__INV__ 로 주입된다.

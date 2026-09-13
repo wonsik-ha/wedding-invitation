@@ -7,7 +7,7 @@
 #   2) 예식 일시에서 파생값(요일, 한국어 날짜, D-day 기준)을 KST로 계산합니다.
 #   3) 청첩장 JS가 읽는 window.__WEDDING__ 등을 dist/js/data.js 로 생성합니다.
 #   4) 계좌를 난독화해 같은 파일에 넣습니다. 결과물에 평문 번호가 남지 않습니다.
-#   5) css 와 js 참조에 ?v= 를 붙여 browser cache를 갱신합니다.
+#   5) css, js, 사진 참조에 ?v= 를 붙여 browser cache를 갱신합니다.
 #
 # Windows PowerShell 5.1 과 PowerShell 7 에서 동작합니다. 추가 module이 필요하지 않습니다.
 #
@@ -408,17 +408,19 @@ Write-Text ([IO.Path]::Combine($Out, 'js', 'data.js')) $data.ToString()
 
 
 # --- 자산 version (browser cache 갱신) --------------------------------------
-# css 와 js 내용에서 뽑습니다. 내용이 바뀌면 값이 바뀝니다.
+# 사진도 fingerprint에 포함합니다. 사진만 교체한 배포에서도 카카오톡 인앱 브라우저가
+# 이전 image 응답을 재사용하지 않고 새 URL을 요청해야 합니다.
 $acc = New-Object Text.StringBuilder
-foreach ($p in (Get-ChildItem -LiteralPath ([IO.Path]::Combine($Out, 'css')) -File | Sort-Object Name)) {
-  [void]$acc.Append((Read-Text $p.FullName))
-}
-foreach ($p in (Get-ChildItem -LiteralPath ([IO.Path]::Combine($Out, 'js')) -File | Sort-Object Name)) {
-  [void]$acc.Append((Read-Text $p.FullName))
+foreach ($dir in @('css', 'js', 'assets', 'photos')) {
+  foreach ($p in (Get-ChildItem -LiteralPath ([IO.Path]::Combine($Out, $dir)) -File -Recurse | Sort-Object FullName)) {
+    [void]$acc.AppendLine("$dir/$($p.Name):$((Get-FileHash -LiteralPath $p.FullName -Algorithm SHA256).Hash)")
+  }
 }
 $sha = [Security.Cryptography.SHA1]::Create()
 $hash = $sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($acc.ToString()))
 $assetVer = -join ($hash[0..3] | ForEach-Object { $_.ToString('x2') })
+[void]$data.AppendLine("window.__ASSET_VERSION__='$assetVer';")
+Write-Text ([IO.Path]::Combine($Out, 'js', 'data.js')) $data.ToString()
 
 
 # --- HTML 치환 --------------------------------------------------------------
@@ -437,6 +439,8 @@ foreach ($name in @('main.html', 'developer.html')) {
 
   # 이름과 예식 정보 token
   foreach ($k in $T.Keys) { $html = $html.Replace('{{' + $k + '}}', [string]$T[$k]) }
+  # 카카오톡 공유 미리보기도 새 표지 사진 URL을 다시 요청하게 합니다.
+  $html = $html -replace '(<meta property="og:image" content="[^"]+)(")', ('$1?v=' + $assetVer + '$2')
   $pageUrl = ''
   if ($origin) {
     if ($file.Name -eq 'main.html') { $pageUrl = "$origin/" }

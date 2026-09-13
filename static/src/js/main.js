@@ -151,12 +151,13 @@ function createPhotoPlaceholder() {
   return placeholder;
 }
 
-function createPhoto(src, { caption = '', onLoaded = null } = {}) {
+function createPhoto(src, { caption = '', onLoaded = null, loading = 'lazy' } = {}) {
   if (!src) return createPhotoPlaceholder();
   const img = document.createElement('img');
+  img.loading = loading;
+  if (loading === 'eager') img.fetchPriority = 'high';
   img.src = photoSrc(src);   // 배포별 ?v= cache busting
   img.alt = caption || '웨딩 사진';
-  img.loading = 'lazy';
 
   img.addEventListener('load', () => {
     if (onLoaded) onLoaded(img);
@@ -170,7 +171,7 @@ function createPhoto(src, { caption = '', onLoaded = null } = {}) {
 }
 
 // main 사진(아치 frame). 확대는 하지 않는다. 클릭과 zoom cursor가 없고 lightbox 목록에서도 뺀다.
-const mainPhotoImg = createPhoto(CONFIG.photos.main, { caption: '메인 웨딩 사진' });
+const mainPhotoImg = createPhoto(CONFIG.photos.main, { caption: '메인 웨딩 사진', loading: 'eager' });
 document.getElementById('mainPhoto').appendChild(mainPhotoImg);
 
 // '축하 전하기' 아래의 전체폭(풀블리드) 사진. HTML의 #blessPhoto에 ?v= cache busting src를 넣는다.

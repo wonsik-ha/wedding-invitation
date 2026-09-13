@@ -6,7 +6,7 @@
 #   2) 예식 일시에서 파생값(요일, 한국어 날짜, D-day 기준)을 KST로 계산합니다.
 #   3) 청첩장 JS가 읽는 window.__WEDDING__ 등을 dist/js/data.js 로 생성합니다.
 #   4) 계좌를 난독화해 같은 파일에 넣습니다. 결과물에 평문 번호가 남지 않습니다.
-#   5) css 와 js 참조에 ?v= 를 붙여 browser cache를 갱신합니다.
+#   5) css, js, 사진 참조에 ?v= 를 붙여 browser cache를 갱신합니다.
 #
 # 필요한 명령: bash, sed, awk, od, base64
 #
@@ -442,7 +442,15 @@ fi
 
 
 # --- 자산 version (browser cache 갱신) --------------------------------------
-ASSET_VER="$(cat "$OUT"/css/*.css "$OUT"/js/*.js | cksum | awk '{printf "%x", $1}')"
+# 사진도 fingerprint에 포함합니다. 사진만 교체한 배포에서도 카카오톡 인앱 브라우저가
+# 이전 image 응답을 재사용하지 않고 새 URL을 요청해야 합니다.
+ASSET_VER="$(
+  cd "$OUT"
+  find css js assets photos -type f -print | LC_ALL=C sort |
+    while IFS= read -r file; do cksum "$file"; done |
+    cksum | awk '{printf "%x", $1}'
+)"
+printf "window.__ASSET_VERSION__='%s';\n" "$ASSET_VER" >> "$OUT/js/data.js"
 
 
 # --- sed script를 만들어 HTML을 치환 ----------------------------------------
@@ -474,6 +482,7 @@ for f in "$SRC"/main.html "$SRC"/developer.html; do
   fi
   sed -f "$SEDF" -e "s|{{PAGE_URL}}|$(sed_esc "$page_url")|g" "$f" \
     | sed -E "s#(href|src)=\"((css|js)/[^\"?]*\.(css|js))\"#\\1=\"\\2?v=${ASSET_VER}\"#g" \
+    | sed -E "s#(<meta property=\"og:image\" content=\"[^\"]+)(\")#\\1?v=${ASSET_VER}\\2#g" \
     > "$OUT/$name"
   pages=$((pages + 1))
 done

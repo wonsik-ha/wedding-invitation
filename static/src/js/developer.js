@@ -272,12 +272,13 @@ function createPhotoPlaceholder() {
 }
 
 /** img 엘리먼트를 만든다. 파일이 없으면 자리 표시로 대체한다. */
-function createPhoto(src, { caption = '', onLoaded = null } = {}) {
+function createPhoto(src, { caption = '', onLoaded = null, loading = 'lazy' } = {}) {
   if (!src) return createPhotoPlaceholder();
   const img = document.createElement('img');
+  img.loading = loading;
+  if (loading === 'eager') img.fetchPriority = 'high';
   img.src = photoSrc(src);   // 배포별 ?v= cache busting
   img.alt = caption || '웨딩 사진';
-  img.loading = 'lazy';
 
   img.addEventListener('load', () => {
     if (onLoaded) onLoaded(img);
@@ -293,7 +294,7 @@ function createPhoto(src, { caption = '', onLoaded = null } = {}) {
 // main 사진(hero 아래 viewer frame). 개발자 version 표지(mainDev)를 우선 쓴다.
 // 확대는 하지 않는다. 클릭과 zoom cursor가 없고 lightbox 목록에서도 뺀다.
 const MAIN_PHOTO = CONFIG.photos.mainDev || CONFIG.photos.main;
-const mainPhotoImg = createPhoto(MAIN_PHOTO, { caption: '메인 웨딩 사진' });
+const mainPhotoImg = createPhoto(MAIN_PHOTO, { caption: '메인 웨딩 사진', loading: 'eager' });
 document.getElementById('mainPhoto').appendChild(mainPhotoImg);
 
 // gallery. 3x3 pagination이라 한 page에 9장씩 나눠 보여준다.
