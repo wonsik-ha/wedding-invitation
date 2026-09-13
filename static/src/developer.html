@@ -286,13 +286,6 @@
       저희 두 사람의 시작을<br />축하의 마음으로 approve해 주세요.
     </p>
 
-    <!-- AI agent들의 축하. SVG 캐릭터가 차례로 한 마디씩 한다(js/developer.js에서 생성). -->
-    <div class="ai-guests rv d2">
-      <div class="ai-head">// AI agent들의 축하가 먼저 도착했습니다</div>
-      <div class="ai-cast" id="aiCast" aria-hidden="true"></div>
-      <div class="ai-msg" id="aiMsg"></div>
-    </div>
-
     <div class="deploy-line rv d3">
       <span class="deploy-prompt" aria-hidden="true">$</span>
       <input class="deploy-input" id="deployInput" type="text" maxlength="50"
@@ -324,13 +317,8 @@
     <div class="ft-line"><span class="dim">[11141.112]</span> <span class="sys">marriage:</span> <span class="str">thank you for blessing us <span class="heart">♥</span></span></div>
     <div class="ft-line"><span class="p" style="color: var(--green)">$</span> sudo rmmod marriage</div>
     <div class="ft-line exit"><span class="err">rmmod: ERROR:</span> marriage is in use — <span class="heart">forever</span></div>
-    <a class="invitation-switch" href="./">
-      <span class="switch-prompt" aria-hidden="true">$</span>
-      <span class="switch-copy">
-        <b>open --classic</b>
-        <small>// 일반 청첩장으로 돌아가기</small>
-      </span>
-      <span class="switch-arrow" aria-hidden="true">↗</span>
+    <a class="invitation-switch" href="./" aria-label="일반 청첩장 보기" title="일반 청첩장 보기">
+      <img src="assets/bear-switch.png" width="40" height="40" alt="" />
     </a>
   </footer>
 </main>

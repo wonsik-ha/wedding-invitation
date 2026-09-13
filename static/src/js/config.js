@@ -87,7 +87,6 @@ const CONFIG = {
    build.sh 가 window.__NO_API__ 를 넣어 알려 준다.
    그대로 두면 하객이 글을 남겨도 그 사람 browser에만 남고 신랑신부에게 오지 않는데,
    화면은 잘 보낸 것처럼 보여서 하객을 속이게 된다.
-   AI agent들의 축하는 저장이 필요 없으므로 그대로 둔다.
    element를 지우지 않고 감추기만 하는 이유는, 각 version의 js가 이 element들을
    getElementById로 잡아 두기 때문이다. 지우면 null을 참조해 그 파일이 통째로 멈춘다.
    GUESTBOOK_API_BASE 를 채워 API를 붙이면 __NO_API__ 가 없으므로 다시 보인다. */
@@ -98,19 +97,17 @@ const CONFIG = {
   st.textContent =
     // main version. section 전체가 축하 기능이다. 아래 전체폭 사진은 section 밖이라 남는다.
     '#bless{display:none}' +
-    // developer version. AI 축하(.ai-guests)는 남기고 나머지를 감춘다.
-    // .readme 는 'approve해 주세요' 안내문이다. 누를 button이 없으니 함께 감춘다.
-    '#deploy .readme,#deploy .deploy-line,#deploy .input-hint,' +
-    '#deployBtn,#deployMsg,#deploy .approval-log{display:none}' +
+    // developer version. 축하 기능 전용 section 전체를 감춘다.
+    '#deploy{display:none}' +
     // terminal version. AI 축하(.ai)는 남기고 나머지를 감춘다.
     '#rsvp .body-text,#rsvp .rsvp-line,#rsvp .input-hint,' +
     '#rsvpBtn,#rsvpMsg,#rsvp .log{display:none}';
   (document.head || document.documentElement).appendChild(st);
 
-  /* AI 축하 머리글의 '먼저'를 뺀다. 하객 축하를 받지 않으므로 뒤따라 올 것이 없는데
+  /* terminal AI 축하 머리글의 '먼저'를 뺀다. 하객 축하를 받지 않으므로 뒤따라 올 것이 없는데
      '먼저 도착했습니다'는 곧 다른 축하가 온다는 뜻으로 읽힌다. */
   function dropMeonjeo() {
-    var heads = document.querySelectorAll('#deploy .ai-head, #rsvp .ai-head');
+    var heads = document.querySelectorAll('#rsvp .ai-head');
     for (var i = 0; i < heads.length; i++) {
       heads[i].textContent = heads[i].textContent.replace('먼저 도착', '도착');
     }

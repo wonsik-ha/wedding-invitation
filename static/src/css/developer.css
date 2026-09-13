@@ -1336,143 +1336,6 @@ details.gift .acc-list {
   text-align: left;
 }
 
-/* AI agent들의 축하. 흐르는 marquee chip과 순환 메시지. */
-.ai-guests {
-  margin-top: 30px;
-  padding: 18px 0 14px;
-  overflow: hidden;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-}
-
-.ai-guests .ai-head {
-  padding: 0 18px;
-  text-align: left;
-  font-family: var(--mono);
-  font-size: 12.5px;
-  color: var(--comment);
-}
-
-/* AI 캐릭터 행렬. 둥실 떠 있다가 자기 차례에 폴짝 뛴다. */
-.ai-cast {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 7px;
-  margin-top: 18px;
-  padding: 0 8px;
-}
-
-.ai-char {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  width: 50px;
-  color: var(--text-bright);   /* currentColor 단색 icon(OpenAI/Grok)의 theme색 */
-}
-
-.ai-char .ai-ico {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  animation: ai-bob 2.8s ease-in-out infinite;
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.ai-char .ai-ico svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* 둥실거림이 겹치지 않게 시차 부여 */
-.ai-char:nth-child(2n) .ai-ico { animation-delay: 0.5s; }
-.ai-char:nth-child(3n) .ai-ico { animation-delay: 1.1s; }
-.ai-char:nth-child(5n) .ai-ico { animation-delay: 1.7s; }
-
-@keyframes ai-bob {
-  50% { transform: translateY(-5px); }
-}
-
-.ai-char .ai-nm {
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.02em;
-  color: var(--comment);
-}
-
-/* 말하는 캐릭터: 점프 + 발광 + 이름 강조 */
-.ai-char.speaking .ai-ico {
-  animation: ai-cheer 0.65s ease;
-  position: relative;
-}
-
-/* 발광을 filter:drop-shadow 대신 둥근 radial-gradient 의사요소로 구현.
-   iOS WebKit은 filter 글로우를 사각형 색 block으로 render하는 버그가 있어
-   filter를 아예 쓰지 않는다. radial-gradient는 모서리가 투명이라 원형으로 보임. */
-.ai-char.speaking .ai-ico::after {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  z-index: -1;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--c) 0%, transparent 60%);
-  opacity: 0.4;
-  pointer-events: none;
-}
-
-.ai-char.speaking .ai-nm {
-  color: var(--text);
-}
-
-@keyframes ai-cheer {
-  0%   { transform: translateY(0); }
-  35%  { transform: translateY(-12px) rotate(-7deg) scale(1.15); }
-  65%  { transform: translateY(-6px) rotate(6deg) scale(1.1); }
-  100% { transform: translateY(0); }
-}
-
-/* deploy 승인 순간: 전원 환호 */
-.ai-cast.party .ai-char .ai-ico {
-  animation: ai-cheer 0.7s ease 3;
-}
-
-/* 순환 메시지. 높이를 고정해 메시지 길이가 달라도 위아래로 흔들리지 않는다. */
-.ai-msg {
-  height: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 16px;
-  padding: 0 18px;
-  overflow: hidden;
-  font-family: var(--mono);
-  font-size: 13px;
-  line-height: 1.6;
-  text-align: center;
-  word-break: keep-all;
-  opacity: 1;
-  transition: opacity 0.45s ease;
-}
-
-.ai-msg.fade {
-  opacity: 0;
-}
-
-.ai-msg .who {
-  display: block;
-  margin-bottom: 3px;
-  font-weight: 700;
-}
-
-.ai-msg .txt {
-  display: block;
-  color: var(--text-dim);
-}
-
 /* 축하 한마디 입력. 어두운 console칸과 왼쪽 prompt로 shell($)처럼 보이게 한다. */
 .deploy-line {
   position: relative;
@@ -1782,66 +1645,34 @@ footer .share-btn {
 footer .share-btn:hover { background: var(--mint); color: #0a0e15; }
 footer .share-btn:active { transform: scale(0.98); }
 
-/* footer 마지막의 화면 전환 명령. developer theme 안에서 일반 청첩장으로 돌아가는 길을 분명히 한다. */
+/* 일반 청첩장과 동일한 실사 곰 전환 버튼. 보이는 윤곽과 배경은 두지 않는다. */
 footer .invitation-switch {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 12px;
-  min-height: 58px;
-  margin-top: 24px;
-  padding: 10px 14px;
-  background: var(--panel);
-  border: 1px solid var(--line-hi);
-  border-radius: 8px;
-  color: var(--text);
-  text-align: left;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 20px auto 0;
+  padding: 2px;
+  background: transparent;
+  border: 0;
   text-decoration: none;
-  box-shadow: inset 3px 0 0 var(--mint);
-  transition: border-color 0.25s, background 0.25s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.2s, opacity 0.2s;
 }
 
-footer .invitation-switch:hover {
-  border-color: var(--mint);
-  background: var(--panel-2);
-}
-
-footer .invitation-switch:active { transform: scale(0.98); }
+footer .invitation-switch:hover { transform: translateY(-2px) scale(1.06); }
+footer .invitation-switch:active { transform: scale(0.94); }
 
 footer .invitation-switch:focus-visible {
   outline: 2px solid var(--mint);
   outline-offset: 3px;
 }
 
-footer .switch-prompt {
-  align-self: start;
-  color: var(--green);
-  font-size: 15px;
-  line-height: 1.4;
-}
-
-footer .switch-copy {
-  min-width: 0;
-  line-height: 1.45;
-}
-
-footer .switch-copy b {
+footer .invitation-switch img {
   display: block;
-  color: var(--mint);
-  font-size: 13px;
-  font-weight: 500;
-}
-
-footer .switch-copy small {
-  display: block;
-  margin-top: 3px;
-  color: var(--comment);
-  font-size: 10.5px;
-}
-
-footer .switch-arrow {
-  color: var(--rose);
-  font-size: 17px;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
 
@@ -1863,15 +1694,6 @@ footer .switch-arrow {
 
   .gitlog {
     font-size: 11px;
-  }
-
-  .ai-char {
-    width: 42px;
-  }
-
-  .ai-char .ai-ico {
-    width: 32px;
-    height: 32px;
   }
 
   .cal .d {

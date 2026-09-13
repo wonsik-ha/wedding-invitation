@@ -44,12 +44,12 @@
 - Spacing/layout rhythm: 기존 430px 모바일 폭과 넉넉한 세로 여백 유지
 - Shape/radius/elevation: 아치형 표지, 부드러운 모서리, 낮은 명도의 녹색 그림자
 - Motion: 기존 scroll reveal 유지, 과도한 신규 motion 금지
-- Imagery/iconography: 전달받은 실제 웨딩 사진을 메인 표지와 공유 미리보기에 사용하며, 지도 동작은 네이버지도·카카오맵 공식 아이콘과 짧은 이름을 함께 표시
+- Imagery/iconography: 전달받은 실제 웨딩 사진을 메인 표지와 공유 미리보기에 사용하며, 지도 동작은 네이버지도·카카오맵 공식 아이콘과 짧은 이름을 함께 표시하고, 청첩장 전환에는 동일한 투명 배경 실사 곰 이미지를 사용
 
 ## Components
 
 - Existing components to reuse: `.paper`, `.cover`, `.arch-photo`, `.venue-card`, `.share-btn`
-- New/changed components: 기본 청첩장 색상 token, 녹색 placeholder 상태, 3열 지도·주소 아이콘 메뉴, 사진 캐러셀, 화면 오른쪽 고정 글자 크기 조절 도구, 화면별 분위기에 맞춘 footer 청첩장 전환 버튼
+- New/changed components: 기본 청첩장 색상 token, 녹색 placeholder 상태, 3열 지도·주소 아이콘 메뉴, 사진 캐러셀, 화면 오른쪽 고정 글자 크기 조절 도구, 윤곽과 배경 없이 40px 실사 곰 이미지만 보이는 footer 청첩장 전환 버튼
 - Variants and states: 사진 로딩, TBU, 좌우 스와이프·화살표·현재 위치 dot가 있는 캐러셀, 지도 fallback, 공유 fallback, 기본·1단계(+4px)·2단계(+8px)·3단계(+12px) 확대와 펼침·접힘 상태
 - Token/component ownership: 기본 청첩장 token은 `static/src/css/main.css`의 마지막 `:root` override가 소유
 

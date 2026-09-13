@@ -16,7 +16,6 @@
    11. confetti        : approve(deploy) button 연출
    12. 축하 log      : 익명 승인 기록
    13. hidden page 공개 : 예식 시각 이후
-   14. AI guests     : AI agent들의 축하
  */
 
 
@@ -732,82 +731,3 @@ if (isWeddingDeployed()) {
   document.querySelector('.dday-label').innerHTML =
     'DEPLOYED ✓ — marriage v1.0.0 <span style="color:var(--green)">live</span>';
 }
-
-
-/*
-   14. AI guests: AI agent들의 축하
-   브랜드 아이콘(assets/ai/*.svg, LobeHub icons)을 인라인으로 불러와 일렬로 둥실거리게 하고,
-   자기 차례가 오면 폴짝 뛰며 축하 한마디를 건넨다. deploy 버튼을 누르면 전원이 환호한다.
-
-   SVG를 <img>가 아니라 인라인으로 넣는 이유는, openai와 grok 아이콘이
-   fill="currentColor" 단색이라 인라인이어야 테마의 글자색을 상속받기 때문이다. */
-
-const AI_GUESTS = [
-  { name: 'Claude', color: '#d97757', file: 'assets/ai/claude-color.svg',
-    msg: '두 분의 merge, 제가 본 가장 아름다운 PR이었어요.' },
-  { name: 'Codex', color: '#10a37f', file: 'assets/ai/openai.svg',
-    msg: 'LGTM 🎉 approved — no changes requested.' },
-  { name: 'Gemini', color: '#4796e3', file: 'assets/ai/gemini-color.svg',
-    msg: '두 분의 context window가 평생 이어지길!' },
-  { name: 'DeepSeek', color: '#4d6bfe', file: 'assets/ai/deepseek-color.svg',
-    msg: '아무리 deep하게 탐색해도 이만한 짝은 없습니다.' },
-  { name: 'Copilot', color: '#8b5cf6', file: 'assets/ai/copilot.svg',
-    msg: '자동완성이 필요 없네요. 이미 완벽한 두 분이라.' },
-  { name: 'Llama', color: '#0866ff', file: 'assets/ai/meta-color.svg',
-    msg: '이 사랑, 오픈소스처럼 모두에게 공유되길.' },
-  { name: 'Grok', color: '#8b97a5', file: 'assets/ai/grok.svg',
-    msg: '우주적 스케일로 검증 완료. 축하합니다!' },
-];
-
-// 캐릭터 행렬을 만든다. 아이콘 SVG를 인라인으로 넣는다.
-const aiCast = document.getElementById('aiCast');
-
-AI_GUESTS.forEach(async (agent) => {
-  const char = document.createElement('div');
-  char.className = 'ai-char';
-  char.style.setProperty('--c', agent.color);
-  char.innerHTML = `<span class="ai-ico"></span><span class="ai-nm">${agent.name}</span>`;
-  aiCast.appendChild(char);
-
-  try {
-    const res = await fetch(invAsset(agent.file));
-    char.querySelector('.ai-ico').innerHTML = await res.text();
-  } catch {
-    // 아이콘 로드에 실패하면 브랜드색 점으로 대체한다.
-    char.querySelector('.ai-ico').innerHTML =
-      `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="${agent.color}"/></svg>`;
-  }
-});
-
-const aiChars = [...aiCast.children];
-
-// 축하 메시지를 돌아가며 보여준다. 말하는 캐릭터가 폴짝 뛴다.
-const aiMsg = document.getElementById('aiMsg');
-let aiIndex = 0;
-
-function showAiMessage() {
-  const agent = AI_GUESTS[aiIndex];
-
-  aiChars.forEach((c, i) => c.classList.toggle('speaking', i === aiIndex));
-  aiMsg.innerHTML =
-    `<span class="who" style="color:${agent.color}">${agent.name}</span>` +
-    `<span class="txt">"${agent.msg}"</span>`;
-
-  aiIndex = (aiIndex + 1) % AI_GUESTS.length;
-}
-
-showAiMessage();
-
-setInterval(() => {
-  aiMsg.classList.add('fade');
-  setTimeout(() => {
-    showAiMessage();
-    aiMsg.classList.remove('fade');
-  }, 450);
-}, 3400);
-
-// deploy 승인 순간에 전원이 환호한다.
-document.getElementById('deployBtn').addEventListener('click', () => {
-  aiCast.classList.add('party');
-  setTimeout(() => aiCast.classList.remove('party'), 2300);
-});

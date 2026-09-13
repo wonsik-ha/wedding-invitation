@@ -1255,72 +1255,34 @@ footer .share-btn {
 footer .share-btn:hover { background: var(--rose); border-color: var(--rose); color: #fff; }
 footer .share-btn:active { transform: scale(0.97); }
 
-/* 일반 청첩장 톤을 유지하면서 개발자 화면의 존재를 은근하게 드러내는 하단 전환 버튼. */
+/* 두 청첩장에 공통으로 쓰는 실사 곰 전환 버튼. 보이는 윤곽과 배경 없이 40px 이미지로만 둔다. */
 footer .invitation-switch {
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 12px;
-  min-height: 62px;
-  margin-top: 12px;
-  padding: 10px 14px 10px 10px;
-  border: 1px solid #c5d5c1;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.58);
-  color: var(--ink);
-  text-align: left;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 18px auto 0;
+  padding: 2px;
+  border: 0;
+  background: transparent;
   text-decoration: none;
-  box-shadow: 0 8px 20px -18px rgba(23, 55, 39, 0.7);
-  transition: border-color 0.25s, background 0.25s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.2s, opacity 0.2s;
 }
 
-footer .invitation-switch:hover {
-  border-color: var(--leaf);
-  background: var(--card);
-}
-
-footer .invitation-switch:active { transform: scale(0.98); }
+footer .invitation-switch:hover { transform: translateY(-2px) scale(1.06); }
+footer .invitation-switch:active { transform: scale(0.94); }
 
 footer .invitation-switch:focus-visible {
   outline: 3px solid rgba(53, 96, 68, 0.3);
   outline-offset: 3px;
 }
 
-footer .switch-icon {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: #e3eee0;
-  font-family: monospace;
-  font-size: calc(13px + var(--font-boost));
-  color: var(--leaf);
-}
-
-footer .switch-copy {
-  min-width: 0;
-  line-height: 1.45;
-}
-
-footer .switch-copy b {
+footer .invitation-switch img {
   display: block;
-  font-family: var(--serif);
-  font-size: calc(15px + var(--font-boost));
-  font-weight: 700;
-  color: var(--ink-bright);
-}
-
-footer .switch-copy small {
-  display: block;
-  margin-top: 1px;
-  font-size: calc(11.5px + var(--font-boost));
-  color: var(--faint);
-}
-
-footer .switch-arrow {
-  font-size: calc(18px + var(--font-boost));
-  color: var(--leaf);
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
 
