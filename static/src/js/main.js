@@ -45,7 +45,7 @@ const FONT_LEVEL_KEY = 'wedding-font-level';
 const LEGACY_FONT_LARGE_KEY = 'wedding-font-large';
 const FONT_CONTROLS_COLLAPSED_KEY = 'wedding-font-controls-collapsed';
 const FONT_LEVEL_MAX = 3;
-const FONT_STEP_PX = 3;
+const FONT_STEP_PX = 4;
 
 function readFontLevel() {
   try {
