@@ -5,7 +5,7 @@
 - Status: Active
 - Last refreshed: 2026-09-13
 - Primary product surfaces: 기본 모바일 청첩장 `index.html`, 숨은 개발자 페이지 `developer.html`
-- Evidence reviewed: `static/src/main.html`, `static/src/css/main.css`, `static/src/css/developer.css`, `static/src/fonts/`, 전달받은 야외 웨딩 사진
+- Evidence reviewed: `static/src/main.html`, `static/src/css/main.css`, `static/src/css/developer.css`, `static/src/fonts/`, 전달받은 야외 웨딩 사진, Apple HIG Buttons·Motion, Material Design Motion, W3C `prefers-reduced-motion` C39
 
 ## Brand
 
@@ -43,13 +43,13 @@
 - Typography: 제목은 Gowun Batang, 본문은 Gowun Dodum이며 고정 버전 WOFF2를 GitHub Pages의 same-origin 자산으로 제공합니다.
 - Spacing/layout rhythm: 기존 430px 모바일 폭과 넉넉한 세로 여백 유지
 - Shape/radius/elevation: 아치형 표지, 부드러운 모서리, 낮은 명도의 녹색 그림자
-- Motion: 기존 scroll reveal을 유지하고, 청첩장 전환 곰은 대부분 정지한 채 약 5초마다 한 번만 짧게 튀어 오르며 고개를 갸웃해 호기심을 유도합니다. 과도한 반복 motion은 금지합니다.
+- Motion: 기존 scroll reveal을 유지하고, 청첩장 전환 곰은 약 3.8초마다 짧은 2단 점프와 고개 갸웃 동작으로 호기심을 유도합니다. 나머지 컴포넌트 motion은 150~300ms의 짧은 눌림·hover 피드백만 사용합니다.
 - Imagery/iconography: 전달받은 실제 웨딩 사진을 메인 표지와 공유 미리보기에 사용하며, 지도 동작은 네이버지도·카카오맵 공식 아이콘과 짧은 이름을 함께 표시하고, 청첩장 전환에는 동일한 투명 배경 실사 곰 이미지를 사용
 
 ## Components
 
 - Existing components to reuse: `.paper`, `.cover`, `.arch-photo`, `.venue-card`, `.share-btn`
-- New/changed components: 기본 청첩장 색상 token, 녹색 placeholder 상태, 3열 지도·주소 아이콘 메뉴, 사진 캐러셀, 화면 오른쪽 고정 글자 크기 조절 도구, 윤곽과 배경 없이 40px 실사 곰 이미지만 보이는 footer 청첩장 전환 버튼
+- New/changed components: 기본 청첩장 색상 token, 녹색 placeholder 상태, 3열 지도·주소 아이콘 메뉴, 사진 캐러셀, 화면 오른쪽 하단 고정 글자 크기 조절 도구, 작은 화면에서도 7열이 온전히 보이는 달력, 주요 동작의 44px 이상 터치 높이, 윤곽과 배경 없이 40px 실사 곰 이미지만 보이는 footer 청첩장 전환 버튼
 - Variants and states: 사진 로딩, TBU, 좌우 스와이프·화살표·현재 위치 dot가 있는 캐러셀, 지도 fallback, 공유 fallback, 기본·1단계(+4px)·2단계(+8px)·3단계(+12px) 확대와 펼침·접힘 상태
 - Token/component ownership: 기본 청첩장 token은 `static/src/css/main.css`의 마지막 `:root` override가 소유
 
@@ -64,7 +64,7 @@
 ## Responsive behavior
 
 - Supported breakpoints/devices: iPhone Safari, Android Chrome, 최대 콘텐츠 폭 430px
-- Layout adaptations: 작은 화면에서도 가로 overflow 없이 1열 스크롤, 글자 크기 조절 도구는 모바일 화면 및 430px 본문 오른쪽 안쪽에 고정하며 접으면 단일 `가` 버튼만 유지
+- Layout adaptations: 작은 화면에서도 가로 overflow 없이 1열 스크롤, 달력은 320px 화면에서도 7열 전체를 유지하고 글자 크기 조절 도구는 콘텐츠를 가리지 않도록 화면 오른쪽 하단의 안전 영역에 고정하며 접으면 단일 `가` 버튼만 유지
 - Touch/hover differences: 핵심 동작은 touch로 완결되며 hover에 의존하지 않음
 
 ## Interaction states

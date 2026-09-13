@@ -225,8 +225,8 @@ section + section {
   flex: none;
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 44px;
+  height: 44px;
   font-family: var(--mono);
   font-size: 15px;
   line-height: 1;
@@ -1674,17 +1674,173 @@ footer .invitation-switch img {
   height: 40px;
   object-fit: contain;
   transform-origin: 50% 85%;
-  animation: bear-curiosity 5.2s ease-in-out 1.2s infinite;
+  animation: bear-curiosity 3.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s infinite;
 }
 
-/* 대부분은 가만히 있다가 짧게 튀어 오르고 고개를 갸웃해 숨은 화면을 암시한다. */
+/* 짧은 2단 점프와 고개 갸웃으로 숨은 화면을 적극적으로 암시한다. */
 @keyframes bear-curiosity {
-  0%, 68%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
-  73% { transform: translateY(-3px) rotate(-7deg) scale(1.06); }
-  78% { transform: translateY(-5px) rotate(7deg) scale(1.1); }
-  83% { transform: translateY(-3px) rotate(-5deg) scale(1.07); }
-  88% { transform: translateY(-1px) rotate(3deg) scale(1.03); }
-  93% { transform: translateY(0) rotate(0deg) scale(1); }
+  0%, 38%, 82%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  45% { transform: translateY(-4px) rotate(-10deg) scale(1.08); }
+  53% { transform: translateY(-10px) rotate(9deg) scale(1.16); }
+  61% { transform: translateY(-3px) rotate(-8deg) scale(1.08); }
+  69% { transform: translateY(-8px) rotate(7deg) scale(1.13); }
+  76% { transform: translateY(-1px) rotate(-3deg) scale(1.03); }
+}
+
+
+/* 2026 component polish. terminal theme은 유지하되 panel depth와 touch state를 정돈한다. */
+.cal {
+  position: relative;
+  overflow: hidden;
+  margin-top: 34px;
+  padding: 20px 12px 16px;
+  background: linear-gradient(155deg, var(--panel-2), var(--panel));
+  border-color: color-mix(in srgb, var(--mint) 18%, var(--line));
+  border-radius: 18px;
+  box-shadow: var(--shadow-panel);
+}
+
+.cal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 24%;
+  right: 24%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--mint), transparent);
+  opacity: 0.48;
+}
+
+.cal-title {
+  margin-bottom: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--text-bright);
+}
+
+.cal table { table-layout: fixed; }
+
+.cal th {
+  padding: 3px 0 8px;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+.cal td {
+  height: 38px;
+  padding: 2px 0;
+}
+
+.cal .d {
+  width: 32px;
+  height: 32px;
+  font-size: 13.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cal .d.wedding-day {
+  background: linear-gradient(145deg, var(--mint), color-mix(in srgb, var(--mint) 72%, var(--blue)));
+  color: #07110e;
+  box-shadow: 0 8px 22px -9px color-mix(in srgb, var(--mint) 75%, transparent),
+              0 0 0 5px color-mix(in srgb, var(--mint) 10%, transparent);
+  animation: dev-calendar-pulse 3.2s ease-in-out infinite;
+}
+
+@keyframes dev-calendar-pulse {
+  0%, 100% { box-shadow: 0 8px 20px -9px color-mix(in srgb, var(--mint) 68%, transparent), 0 0 0 4px color-mix(in srgb, var(--mint) 8%, transparent); }
+  50% { box-shadow: 0 10px 26px -8px color-mix(in srgb, var(--mint) 82%, transparent), 0 0 0 7px color-mix(in srgb, var(--mint) 13%, transparent); }
+}
+
+.btn-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.btn {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 48px;
+  padding: 9px 5px;
+  background: linear-gradient(150deg, var(--panel-2), var(--panel));
+  border-color: color-mix(in srgb, var(--text-dim) 24%, var(--line));
+  border-radius: 12px;
+  font-size: clamp(10.5px, 3.5vw, 13px);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-shadow: 0 12px 24px -20px rgba(0, 0, 0, 0.85), inset 0 1px rgba(255, 255, 255, 0.025);
+  transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1), border-color 180ms, color 180ms, background 180ms;
+}
+
+.btn-row .btn:first-child { color: var(--mint); }
+.btn-row .btn.rose { color: var(--rose); }
+.btn-row button.btn { color: var(--blue); }
+.btn:active { transform: scale(0.95); }
+
+@media (hover: hover) {
+  .btn:hover {
+    transform: translateY(-2px);
+    background: color-mix(in srgb, var(--mint) 6%, var(--panel-2));
+  }
+}
+
+details.gift {
+  border-color: color-mix(in srgb, var(--text-dim) 20%, var(--line));
+  border-radius: 16px;
+  box-shadow: 0 18px 32px -28px rgba(0, 0, 0, 0.9), inset 0 1px rgba(255, 255, 255, 0.025);
+  transition: border-color 200ms, box-shadow 200ms;
+}
+
+details.gift[open] {
+  border-color: color-mix(in srgb, var(--mint) 35%, var(--line));
+  box-shadow: 0 22px 38px -28px rgba(0, 0, 0, 0.94), 0 0 24px color-mix(in srgb, var(--mint) 5%, transparent);
+}
+
+details.gift summary {
+  min-height: 58px;
+  padding: 13px 13px 13px 17px;
+}
+
+details.gift summary .arrow {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--panel-2);
+  color: var(--mint);
+}
+
+.acc button {
+  min-height: 44px;
+  padding: 0 12px;
+  border-color: color-mix(in srgb, var(--mint) 22%, var(--line));
+  border-radius: 9px;
+  color: var(--mint);
+}
+
+.gallery-pager .pg-btn {
+  min-width: 44px;
+  height: 44px;
+  border-radius: 10px;
+}
+
+footer .share-btn {
+  min-height: 50px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(145deg, var(--mint), color-mix(in srgb, var(--mint) 74%, var(--blue)));
+  color: #07110e;
+  font-weight: 700;
+  box-shadow: 0 18px 34px -18px color-mix(in srgb, var(--mint) 45%, transparent), inset 0 1px rgba(255, 255, 255, 0.22);
+}
+
+footer .share-btn:hover {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--mint) 88%, white), var(--mint));
+  color: #07110e;
 }
 
 
