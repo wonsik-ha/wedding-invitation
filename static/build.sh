@@ -503,6 +503,74 @@ case "${DEFAULT_VERSION:-main}" in
 esac
 cp "$OUT/${DEF}.html" "$OUT/index.html"
 
+# --- wedding-welcome 독립 pair ---------------------------------------------
+# 기존 root pair는 그대로 유지하고, 같은 행사 데이터로 nested pair를 만든다.
+# nested pair에서는 가족/계좌 개인정보 block과 해당 data를 함께 제거한다.
+WELCOME="$OUT/wedding-welcome"
+WELCOME_ORIGIN="${ORIGIN:+$ORIGIN/wedding-welcome}"
+mkdir -p "$WELCOME"
+printf 'build.sh 산출물입니다.\n' > "$WELCOME/$STAMP"
+for dir in css js assets fonts photos; do
+  cp -R "$OUT/$dir" "$WELCOME/$dir"
+done
+
+strip_optional_block() {
+  local file="$1" block="$2" tmp
+  tmp="$file.tmp"
+  awk -v block="$block" '
+    $0 == "<!-- TARGET_OPTIONAL:" block " -->" { skip = 1; next }
+    $0 == "<!-- /TARGET_OPTIONAL:" block " -->" { skip = 0; next }
+    !skip { print }
+  ' "$file" > "$tmp"
+  mv "$tmp" "$file"
+}
+
+render_welcome_page() {
+  local source="$1" target="$2"
+  if [ -n "$ORIGIN" ]; then
+    sed "s|$(sed_esc "$ORIGIN")|$(sed_esc "$WELCOME_ORIGIN")|g" "$source" > "$target"
+  else
+    cp "$source" "$target"
+  fi
+  strip_optional_block "$target" FAMILY
+  strip_optional_block "$target" ACCOUNTS
+}
+
+render_welcome_page "$OUT/main.html" "$WELCOME/main.html"
+render_welcome_page "$OUT/developer.html" "$WELCOME/developer.html"
+cp "$WELCOME/main.html" "$WELCOME/index.html"
+
+# nested target의 generated data도 가족/계좌 정보 없이 독립시킨다.
+if command -v node >/dev/null 2>&1; then
+  node - "$WELCOME/js/data.js" "$WELCOME_ORIGIN" <<'NODE'
+const fs = require('fs');
+const file = process.argv[2];
+const origin = process.argv[3] || '';
+let text = fs.readFileSync(file, 'utf8');
+const weddingLine = text.match(/^window\.__(WEDDING)__=(.*);$/m);
+if (!weddingLine) throw new Error('nested data.js: WEDDING data is missing');
+const wedding = JSON.parse(weddingLine[2]);
+for (const person of [wedding.groom, wedding.bride]) {
+  person.parents = [];
+  person.rankKo = '';
+  person.rank = '';
+}
+text = text.replace(weddingLine[0], `window.__WEDDING__=${JSON.stringify(wedding)};`);
+text = text.replace(/^window\.__GIFT__=.*;$/m, "window.__GIFT__='';");
+if (origin) text = text.replace(/^window\.__ORIGIN__=.*;$/m, `window.__ORIGIN__=${JSON.stringify(origin)};`);
+fs.writeFileSync(file, text);
+NODE
+else
+  sed -i.bak "s/^window\.__GIFT__=.*/window.__GIFT__='';/" "$WELCOME/js/data.js"
+  rm -f "$WELCOME/js/data.js.bak"
+fi
+
+# source marker는 root 결과물에 남기지 않아 기존 페이지의 HTML을 깨끗하게 유지한다.
+for f in "$OUT/main.html" "$OUT/developer.html" "$OUT/index.html"; do
+  sed -e '/^<!-- TARGET_OPTIONAL:/d' -e '/^<!-- \/TARGET_OPTIONAL:/d' "$f" > "$f.tmp"
+  mv "$f.tmp" "$f"
+done
+
 # 허용 목록 밖의 page나 runtime 자산이 결과물에 생기면 배포 전에 실패합니다.
 for forbidden in terminal.html release.html css/terminal.css js/terminal.js; do
   [ ! -e "$OUT/$forbidden" ] || die "배포 제외 파일이 결과물에 포함됐습니다: $forbidden"

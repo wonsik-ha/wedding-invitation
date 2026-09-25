@@ -124,8 +124,10 @@
       <div><span class="key">groom</span>:</div>
       <div>&nbsp;&nbsp;<span class="key">name</span>: <span class="big-name">{{GROOM_NAME}}</span></div>
       <div>&nbsp;&nbsp;<span class="key">name_en</span>: <span class="str">"{{GROOM_NAME_EN}}"</span></div>
+<!-- TARGET_OPTIONAL:FAMILY -->
       <div>&nbsp;&nbsp;<span class="key">parents</span>: [<span class="str">"{{GROOM_PARENTS_0}}"</span>, <span class="str">"{{GROOM_PARENTS_1}}"</span>]</div>
       <div>&nbsp;&nbsp;<span class="key">rank</span>: <span class="str">{{GROOM_RANK_EXPR}}</span>  <span class="cmt"># {{GROOM_RANK_KO}}</span></div>
+<!-- /TARGET_OPTIONAL:FAMILY -->
     </div>
 
     <div class="yaml-card bride rv d2">
@@ -133,8 +135,10 @@
       <div><span class="key">bride</span>:</div>
       <div>&nbsp;&nbsp;<span class="key">name</span>: <span class="big-name">{{BRIDE_NAME}}</span></div>
       <div>&nbsp;&nbsp;<span class="key">name_en</span>: <span class="str">"{{BRIDE_NAME_EN}}"</span></div>
+<!-- TARGET_OPTIONAL:FAMILY -->
       <div>&nbsp;&nbsp;<span class="key">parents</span>: [<span class="str">"{{BRIDE_PARENTS_0}}"</span>, <span class="str">"{{BRIDE_PARENTS_1}}"</span>]</div>
       <div>&nbsp;&nbsp;<span class="key">rank</span>: <span class="str">{{BRIDE_RANK_EXPR}}</span>  <span class="cmt"># {{BRIDE_RANK_KO}}</span></div>
+<!-- /TARGET_OPTIONAL:FAMILY -->
     </div>
   </section>
 
@@ -257,6 +261,7 @@
   </section>
 
 
+<!-- TARGET_OPTIONAL:ACCOUNTS -->
   <!-- 마음 전하실 곳 -->
   <section id="gift">
     <div class="sec-label rv">section: gift — 마음 전하실 곳</div>
@@ -277,6 +282,7 @@
       <div class="acc-list" data-acc="bride" data-copy-label="copy"></div>
     </details>
   </section>
+<!-- /TARGET_OPTIONAL:ACCOUNTS -->
 
 
   <!-- RSVP (deploy) -->
